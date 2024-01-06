@@ -1,6 +1,7 @@
 import AppNavbar from "../components/AppNavbar";
 import styles from "./Homepage.module.css";
 import AppButton from "../components/AppButton";
+
 function Homepage() {
   return (
     <div>
@@ -10,7 +11,9 @@ function Homepage() {
           Welcome to the BookTracker! Track all the book you are reading and
           more
         </span>
-        <AppButton type="start">START APPLICATION NOW</AppButton>
+        <AppButton useAs="NavLink" dest="/login" type="start">
+          START APPLICATION NOW
+        </AppButton>
       </div>
     </div>
   );
