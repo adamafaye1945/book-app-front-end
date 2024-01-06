@@ -1,0 +1,17 @@
+.homepage {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* This will center-align the items vertically */
+  justify-content: center;
+  background-image: url("/public/background.png");
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+.homepage span {
+  font-size: 40px;
+  color: aliceblue;
+  text-align: center;
+  margin-bottom: 30px;
+}

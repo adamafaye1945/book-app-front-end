@@ -1,0 +1,17 @@
+.start{
+    color: aliceblue;
+    border-color: aliceblue;
+}
+.start:hover{
+    background-color: #61A3BA;
+    border: #61A3BA;
+}
+.login{
+    background-color: #61A3BA !important;
+    border: #61A3BA;
+    
+}
+.signup{
+    background-color: #61A3BA !important;
+    border: #61A3BA;
+}
