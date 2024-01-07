@@ -3,9 +3,11 @@ import AppNavbar from "../components/AppNavbar";
 import AppButton from "../components/AppButton";
 import styles from "./AppLayout.module.css";
 import BookCard from "../components/BookCard";
-
+import { useAppContext } from "../context/Context";
 
 function AppLayout() {
+  const { setSearch, search } = useAppContext();
+  console.log(search);
   return (
     <>
       <AppNavbar />
@@ -17,14 +19,18 @@ function AppLayout() {
               Search Any book by name or Author
             </Form.Label>
             <Col sm="5">
-              <Form.Control placeholder="Books name, Author"></Form.Control>
+              <Form.Control
+                placeholder="Books name, Author"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
             </Col>
             <Col sm="5">
               <AppButton type="search">CLEAR SEARCH</AppButton>
             </Col>
           </Form.Group>
         </Form>
-        <BookCard/>
+        <BookCard />
       </div>
     </>
   );
