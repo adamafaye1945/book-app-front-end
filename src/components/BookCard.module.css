@@ -1,0 +1,19 @@
+.cardContainer {
+  width: 18rem;
+}
+
+.card {
+  height: auto; /* Adjust height as per content */
+  /* Add other styles if needed */
+}
+
+.cardImage {
+  height: 200px; /* Adjust image height */
+  object-fit: cover; /* This ensures the image covers the area without stretching */
+}
+
+.cardText {
+  height: 60px; /* Limit the text height */
+  overflow: hidden; /* Hide overflow text */
+  text-overflow: ellipsis; /* Add ellipsis for overflow text */
+}

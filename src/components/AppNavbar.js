@@ -13,7 +13,9 @@ function AppNavbar() {
             Login
           </Nav.Link>
 
-          <Nav.Link as={NavLink}>Signup</Nav.Link>
+          <Nav.Link as={NavLink} to="/signup">
+            Signup
+          </Nav.Link>
         </Nav>
       </Container>
     </Navbar>

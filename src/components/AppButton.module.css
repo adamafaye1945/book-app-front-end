@@ -1,17 +1,20 @@
-.start{
-    color: aliceblue;
-    border-color: aliceblue;
+.start {
+  color: aliceblue;
+  border-color: aliceblue;
 }
-.start:hover{
-    background-color: #61A3BA;
-    border: #61A3BA;
+.start:hover {
+  background-color: #61a3ba;
+  border: #61a3ba;
 }
-.login{
-    background-color: #61A3BA !important;
-    border: #61A3BA;
-    
+.login {
+  background-color: #61a3ba !important;
+  border: #61a3ba;
 }
-.signup{
-    background-color: #61A3BA !important;
-    border: #61A3BA;
+.signup {
+  background-color: #61a3ba !important;
+  border: #61a3ba;
+}
+.search {
+  background-color: #61a3ba !important;
+  border: #61a3ba;
 }
