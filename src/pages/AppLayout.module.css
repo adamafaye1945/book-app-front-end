@@ -2,3 +2,9 @@
   margin-top: 40px;
   margin-left: 100px;
 }
+.bookCardsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; /* Adjust the gap between cards as needed */
+  justify-content: center; /* Center the cards horizontally */
+}

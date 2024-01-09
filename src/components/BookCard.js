@@ -1,14 +1,8 @@
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import styles from "./BookCard.module.css";
-const book = {
-  title: "Flowers",
-  authors: "Vijaya Khisty Bodach",
-  isbn: "9780736896191",
-  image:
-    "http://books.google.com/books/content?id=_ojXNuzgHRcC&printsec=frontcover&img=1&zoom=5&edge=curl&imgtk=AFLRE72fIinM01rF2BJv0lN0cjfq1TvTUyMDzfH-orkIrBXbaAudWJDDFFs44jBNDirmFacHwD5c9vyaDpknntczNHKvTieDh0B9SFuLUloq3y3BAnDbFZyzd4pfu-QeYcc4H7BXLrpT&source=gbs_api",
-};
-function BookCard() {
+
+function BookCard({book}) {
   return (
     <div className={styles.cardContainer}>
       <Card className={styles.card}>

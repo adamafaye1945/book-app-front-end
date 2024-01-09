@@ -6,7 +6,7 @@ import BookCard from "../components/BookCard";
 import { useAppContext } from "../context/Context";
 
 function AppLayout() {
-  const { setSearch, search } = useAppContext();
+  const { setSearch, search, books } = useAppContext();
   console.log(search);
   return (
     <>
@@ -30,7 +30,11 @@ function AppLayout() {
             </Col>
           </Form.Group>
         </Form>
-        <BookCard />
+        <div className={styles.bookCardsContainer}>
+          {books.map((curr_book) => (
+            <BookCard book={curr_book} />
+          ))}
+        </div>
       </div>
     </>
   );
