@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 
 const Context = createContext();
-const GOOGLEAPIURL = "https://www.googleapis.com/books/v1/volumes";
+
 const booksobj = [
   {
     id: "121212",
@@ -15,6 +15,7 @@ const booksobj = [
 ];
 
 function ContextProvider({ children }) {
+  const GOOGLEAPIURL = "https://www.googleapis.com/books/v1/volumes";
   const navigator = useNavigate();
   const [search, setSearch] = useState("");
   const [books, setBooks] = useState(booksobj);
@@ -50,7 +51,7 @@ function ContextProvider({ children }) {
     [search]
   );
   return (
-    <Context.Provider value={{ navigator, search, setSearch, books, setBooks }}>
+    <Context.Provider value={{ navigator, search, setSearch, books, setBooks,GOOGLEAPIURL }}>
       {children}
     </Context.Provider>
   );

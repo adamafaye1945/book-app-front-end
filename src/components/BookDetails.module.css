@@ -1,0 +1,26 @@
+.cardContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+  }
+  
+  .details {
+    width: 600px; /* Adjust based on your preference */
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  }
+  
+  .cardFlex {
+    display: flex;
+    flex-direction: row; /* Aligns children (image and text) in a row */
+  }
+  
+  .cardImage {
+    width: 50%; /* Adjust the width as necessary */
+    object-fit: cover; /* Ensures the image covers the area without stretching */
+  }
+  
+  .cardBody {
+    width: 50%; /* Adjust the width as necessary */
+    padding: 20px; /* Adds some padding inside the card body */
+  }
+  

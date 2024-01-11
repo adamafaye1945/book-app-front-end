@@ -4,7 +4,7 @@
 }
 .start:hover {
   background-color: #61a3ba;
-  border: #61a3ba;
+  border: #6ac0df;
 }
 .login {
   background-color: #61a3ba !important;
@@ -17,4 +17,12 @@
 .search {
   background-color: #61a3ba !important;
   border: #61a3ba;
+}
+.details {
+  color: black;
+  border-color: black;
+}
+.details:hover{
+  background-color: #61a3ba;
+  border: #6ac0df;
 }

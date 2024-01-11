@@ -1,6 +1,7 @@
-import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import styles from "./BookCard.module.css";
+import AppButton from "./AppButton";
+
 
 function BookCard({book}) {
   return (
@@ -14,7 +15,7 @@ function BookCard({book}) {
           <Card.Text className={styles.cardText}>
             Some quick example text...
           </Card.Text>
-          <Button variant="primary">Go somewhere</Button>
+          <AppButton type="details" useAs="NavLink" dest={`${book.id}`}>View Details</AppButton>
         </Card.Body>
       </Card>
     </div>
