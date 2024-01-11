@@ -4,7 +4,7 @@ import styles from "./BookDetails.module.css";
 import { useParams } from "react-router";
 import { useEffect, useState } from "react";
 import { useAppContext } from "../context/Context";
-
+import AppButton from "./AppButton.js"
 function BookDetails() {
   const { id } = useParams();
   const { GOOGLEAPIURL: url } = useAppContext();
@@ -29,7 +29,10 @@ function BookDetails() {
             currentBook = { ...currentBook, publisher, publishedDate };
           }
           if (volumeInfo.description) {
-            const { description } = volumeInfo;
+            let { description } = volumeInfo;
+            if (description.length > 100){
+              description = description.slice(0, 300) + "...."
+            }
             currentBook = { ...currentBook, description };
           }
           const imageUrl = `http://books.google.com/books/content?id=${id}&printsec=frontcover&img=1&zoom=5&edge=curl&imgtk=AFLRE72fIinM01rF2BJv0lN0cjfq1TvTUyMDzfH-orkIrBXbaAudWJDDFFs44jBNDirmFacHwD5c9vyaDpknntczNHKvTieDh0B9SFuLUloq3y3BAnDbFZyzd4pfu-QeYcc4H7BXLrpT&source=gbs_api`
@@ -61,6 +64,8 @@ function BookDetails() {
               />
               <Card.Body className={styles.cardBody}>
                 <Card.Text>{displayedBook.description}</Card.Text>
+                <Card.Text>Written by <i>{displayedBook.authors[0]}</i> and published by {displayedBook.publisher}</Card.Text>
+                <AppButton type="details">Track {displayedBook.title}</AppButton>
               </Card.Body>
             </div>
           </Card>
