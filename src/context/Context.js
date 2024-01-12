@@ -26,18 +26,18 @@ function ContextProvider({ children }) {
           const res = await fetch(`${GOOGLEAPIURL}?q=${search}`);
           const data = await res.json();
           const bookItem = data.items;
-          const newObj = []
-          for(const item of bookItem){
-            const {volumeInfo: book_data, id} = item
-            const {title, authors} = book_data
+          const newObj = [];
+          for (const item of bookItem) {
+            const { volumeInfo: book_data, id } = item;
+            const { title, authors } = book_data;
             newObj.push({
               id,
               title,
               authors: authors[0],
               image: `http://books.google.com/books/content?id=${id}&printsec=frontcover&img=1&zoom=5&edge=curl&imgtk=AFLRE72fIinM01rF2BJv0lN0cjfq1TvTUyMDzfH-orkIrBXbaAudWJDDFFs44jBNDirmFacHwD5c9vyaDpknntczNHKvTieDh0B9SFuLUloq3y3BAnDbFZyzd4pfu-QeYcc4H7BXLrpT&source=gbs_api`,
-            })
+            });
           }
-          setBooks(newObj)
+          setBooks(newObj);
 
           // const { volumeInfo: book_data } = bookItem[0];
           // const { title, authors } = book_data;
@@ -51,7 +51,9 @@ function ContextProvider({ children }) {
     [search]
   );
   return (
-    <Context.Provider value={{ navigator, search, setSearch, books, setBooks,GOOGLEAPIURL }}>
+    <Context.Provider
+      value={{ navigator, search, setSearch, books, setBooks, GOOGLEAPIURL }}
+    >
       {children}
     </Context.Provider>
   );

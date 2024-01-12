@@ -30,6 +30,7 @@ function BookDetails() {
           }
           if (volumeInfo.description) {
             let { description } = volumeInfo;
+            description = description.replace(/<[^>]*>/g, '')
             if (description.length > 100){
               description = description.slice(0, 300) + "...."
             }
