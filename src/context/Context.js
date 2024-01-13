@@ -19,6 +19,13 @@ function ContextProvider({ children }) {
   const navigator = useNavigate();
   const [search, setSearch] = useState("");
   const [books, setBooks] = useState(booksobj);
+  const [loggedIn, setLoggedIn] = useState(false);
+  function login() {
+    setLoggedIn(true);
+  }
+  function logout() {
+    setLoggedIn(false);
+  }
   useEffect(
     function () {
       async function fetchBook() {
@@ -52,7 +59,17 @@ function ContextProvider({ children }) {
   );
   return (
     <Context.Provider
-      value={{ navigator, search, setSearch, books, setBooks, GOOGLEAPIURL }}
+      value={{
+        navigator,
+        search,
+        setSearch,
+        books,
+        setBooks,
+        GOOGLEAPIURL,
+        loggedIn,
+        login,
+        logout,
+      }}
     >
       {children}
     </Context.Provider>

@@ -9,11 +9,12 @@ function Search() {
   const { setSearch, search } = useAppContext();
   return (
     <div>
-      <h1>Search books</h1>
+      <h1 className={styles.search}>Search books 📕</h1>
+
       <Form className={styles.form}>
         <Form.Group as={Row}>
           <Form.Label column sm="2">
-            Search Any book{" "}
+            Search any book or authors
           </Form.Label>
           <Col sm="5">
             <InputGroup>
