@@ -1,3 +1,11 @@
 .bgColor {
-  background-color: #E6B325;
+  background-color: #e6b325;
+}
+.tabs {
+  gap: 40px;
+  border: white;
+}
+.tabs :hover {
+  border-color: yellow !important;
+  color: aliceblue;
 }
