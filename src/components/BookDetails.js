@@ -5,6 +5,7 @@ import { useParams } from "react-router";
 import { useEffect, useState } from "react";
 import { useAppContext } from "../context/Context";
 import AppButton from "./AppButton.js";
+
 function BookDetails() {
   const { id } = useParams();
   const { GOOGLEAPIURL: url } = useAppContext();
@@ -12,10 +13,14 @@ function BookDetails() {
 
   function storeBookInDatabase() {
     if (!displayedBook) return;
-    setDisplayedBook({...displayedBook, tracked: true})
-    localStorage.setItem(displayedBook.bookId, JSON.stringify(displayedBook));
+    const bookStored = { ...displayedBook, tracked: true }
+    console.log(bookStored)
+    localStorage.setItem(
+      displayedBook.bookId,
+      JSON.stringify(bookStored)
+    );
+    setDisplayedBook(bookStored);
   }
-
 
   useEffect(
     function () {
@@ -32,7 +37,7 @@ function BookDetails() {
             bookId,
             title,
             authors,
-            tracked: false
+            tracked: false,
           };
           if (volumeInfo.publisher && volumeInfo.publishedDate) {
             const { publisher, publishedDate } = volumeInfo;
@@ -52,6 +57,11 @@ function BookDetails() {
         } catch (error) {
           console.error("Error fetching data", error);
         }
+      }
+      if (localStorage.getItem(id)) {
+        const storedBook = JSON.parse(localStorage.getItem(id));
+        setDisplayedBook(storedBook);
+        return;
       }
       fetchBook();
     },
@@ -78,10 +88,15 @@ function BookDetails() {
                   Written by <i>{displayedBook.authors[0]}</i> and published by{" "}
                   {displayedBook.publisher}
                 </Card.Text>
-                 
-                <AppButton tracked={displayedBook.tracked} type={displayedBook.tracked === false? "details": "tracked"} action={storeBookInDatabase}>
-                  {!displayedBook.tracked ? `Track ${displayedBook.title}` 
-                  : `Already Tracking ${displayedBook.title}`}
+
+                <AppButton
+                  tracked={displayedBook.tracked}
+                  type={displayedBook.tracked === false ? "details" : "tracked"}
+                  action={storeBookInDatabase}
+                >
+                  {!displayedBook.tracked
+                    ? `Track ${displayedBook.title}`
+                    : `Already Tracking ${displayedBook.title}`}
                 </AppButton>
               </Card.Body>
             </div>
