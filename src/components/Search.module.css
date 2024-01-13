@@ -3,3 +3,10 @@
   margin-left: 100px;
   margin-bottom: 100px;
 }
+.searchContainer {
+  display: flex;
+  align-items: center;
+}
+.searchIcon {
+  margin-right: 20px;
+}
