@@ -2,8 +2,15 @@ import { Button } from "react-bootstrap";
 import styles from "./AppButton.module.css";
 import { NavLink } from "react-router-dom";
 
-
-function AppButton({ children, type, classAdded, useAs, dest, action, tracked}) {
+function AppButton({
+  children,
+  type,
+  classAdded,
+  useAs,
+  dest,
+  action,
+  tracked,
+}) {
   const buttonClasses = `${styles[type]} ${classAdded} `;
 
   return (
@@ -14,7 +21,7 @@ function AppButton({ children, type, classAdded, useAs, dest, action, tracked}) 
         variant="outline-custom"
         className={buttonClasses}
         onClick={action}
-        disabled = {tracked}
+        disabled={tracked}
       >
         {children}
       </Button>

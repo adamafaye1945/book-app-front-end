@@ -12,7 +12,7 @@ function Rating({ book, show, handleClose }) {
           </Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-          <img src={book.image} alt="" />
+          <img src={book.imageUrl} alt="" />
           <div className={styles.form}></div>
           <Form>
             <Form.Group>

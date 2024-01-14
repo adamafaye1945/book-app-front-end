@@ -6,8 +6,11 @@ import Rating from "../components/Rating";
 function Tracker() {
   const [show, setShow] = useState(false);
   const [trackedBook, setTrackedBook] = useState(null);
-  function handleClose() {
+  const [bookAtRate, setBookAtRate] = useState(null);
+  function handleClose(id) {
     setShow(!show);
+    const clickedItem = JSON.parse(localStorage.getItem(id));
+    setBookAtRate(clickedItem);
   }
   useEffect(function () {
     function fetchStoredBook() {
@@ -28,13 +31,21 @@ function Tracker() {
     <div className={styles.tracker}>
       <AppNavbar />
       {trackedBook && (
-        <div className={styles.bookCardsContainer}>
-          {trackedBook.map((book) => (
-            <BookCard book={book} action={handleClose} />
-          ))}
-        </div>
+        <>
+          <div className={styles.bookCardsContainer}>
+            {trackedBook.map((book) => (
+              <BookCard
+                book={book}
+                action={() => handleClose(book.bookId)}
+                key={book.bookId}
+              />
+            ))}
+          </div>
+          {bookAtRate && (
+            <Rating book={bookAtRate} show={show} handleClose={handleClose} />
+          )}
+        </>
       )}
-      {/* <Rating book={book} show={show} handleClose={handleClose} /> */}
     </div>
   );
 }
