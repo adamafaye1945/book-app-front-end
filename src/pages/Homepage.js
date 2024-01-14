@@ -13,7 +13,7 @@ function Homepage() {
           Welcome to the BookTracker! Track all the book you are reading and
           more
         </span>
-        <AppButton useAs="NavLink" dest="/app" type="start" action={login}>
+        <AppButton useAs="NavLink" dest="/app/search" type="start" action={login}>
           START APPLICATION NOW
         </AppButton>
       </div>

@@ -32,3 +32,13 @@
 .stop:hover {
   background-color: red;
 }
+.rate {
+  color: black;
+  border-color: black;
+  margin-top: 20px;
+}
+.rate:hover {
+  background-color: #e6b325;
+  border: #6ac0df;
+  margin-top: 20px;
+}
