@@ -7,25 +7,33 @@ function Tracker() {
   const [show, setShow] = useState(false);
   const [trackedBook, setTrackedBook] = useState(null);
   const [bookAtRate, setBookAtRate] = useState(null);
+  const [size, setSize] = useState(localStorage.length);
   function handleClose(id) {
     setShow(!show);
     const clickedItem = JSON.parse(localStorage.getItem(id));
     setBookAtRate(clickedItem);
   }
-  useEffect(function () {
-    function fetchStoredBook() {
-      const books = [];
-      for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        if (key !== "debug") {
-          const book = JSON.parse(localStorage.getItem(key));
-          books.push(book);
+  function handleDelete(id) {
+    localStorage.removeItem(id);
+    setSize(localStorage.length)
+  }
+  useEffect(
+    function () {
+      function fetchStoredBook() {
+        const books = [];
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if (key !== "debug") {
+            const book = JSON.parse(localStorage.getItem(key));
+            books.push(book);
+          }
         }
+        setTrackedBook(books);
       }
-      setTrackedBook(books);
-    }
-    fetchStoredBook();
-  }, []);
+      fetchStoredBook();
+    },
+    [size]
+  );
 
   return (
     <div className={styles.tracker}>
@@ -36,7 +44,8 @@ function Tracker() {
             {trackedBook.map((book) => (
               <BookCard
                 book={book}
-                action={() => handleClose(book.bookId)}
+                rate={() => handleClose(book.bookId)}
+                stop = {() =>handleDelete(book.bookId)}
                 key={book.bookId}
               />
             ))}

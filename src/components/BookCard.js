@@ -3,7 +3,7 @@ import styles from "./BookCard.module.css";
 import AppButton from "./AppButton";
 import { useLocation } from "react-router";
 
-function BookCard({ book, action }) {
+function BookCard({ book, rate, stop }) {
   const location = useLocation();
 
   return (
@@ -19,10 +19,10 @@ function BookCard({ book, action }) {
           </Card.Text>
           {location.pathname === "/app/tracker" ? (
             <div className={styles.buttonGroup}>
-              <AppButton action={action} type="details">
+              <AppButton action={rate} type="details">
                 Give your Rating
               </AppButton>
-              <AppButton type="stop">Stop Tracking</AppButton>
+              <AppButton action = {stop } type="stop">Stop Tracking</AppButton>
             </div>
           ) : (
             <AppButton type="details" useAs="NavLink" dest={`${book.id}`}>
