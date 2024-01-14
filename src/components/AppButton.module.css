@@ -3,26 +3,32 @@
   border-color: aliceblue;
 }
 .start:hover {
-  background-color: #E6B325;
+  background-color: #e6b325;
   border: #6ac0df;
 }
 .login {
-  background-color: #E6B325 !important;
-  border: #E6B325;
+  background-color: #e6b325 !important;
+  border: #e6b325;
 }
 .signup {
-  background-color: #E6B325 !important;
-  border: #E6B325;
+  background-color: #e6b325 !important;
+  border: #e6b325;
 }
 .search {
-  background-color: #E6B325 !important;
-  border: #E6B325;
+  background-color: #e6b325 !important;
+  border: #e6b325;
 }
 .details {
   color: black;
   border-color: black;
 }
 .details:hover {
-  background-color: #E6B325;
+  background-color: #e6b325;
   border: #6ac0df;
+}
+.stop {
+  border-color: black;
+}
+.stop:hover {
+  background-color: red;
 }

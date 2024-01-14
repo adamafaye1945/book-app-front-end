@@ -20,7 +20,6 @@ function ContextProvider({ children }) {
   const [search, setSearch] = useState("");
   const [books, setBooks] = useState(booksobj);
   const [loggedIn, setLoggedIn] = useState(false);
-  const [currentAct, setCurrentAct] = useState("search");
   function login() {
     setLoggedIn(true);
   }

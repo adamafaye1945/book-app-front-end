@@ -18,3 +18,8 @@
   text-overflow: ellipsis; /* Add ellipsis for overflow text */
 }
 
+.buttonGroup {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}

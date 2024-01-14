@@ -1,0 +1,12 @@
+.tracker {
+  background-color: #f9efdb;
+  min-height: 100vh;
+}
+.bookCardsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  overflow-y: auto;
+  margin-top: 30px;
+}

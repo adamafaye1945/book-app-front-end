@@ -1,9 +1,11 @@
 import Card from "react-bootstrap/Card";
 import styles from "./BookCard.module.css";
 import AppButton from "./AppButton";
+import { useLocation } from "react-router";
 
+function BookCard({ book }) {
+  const location = useLocation();
 
-function BookCard({book}) {
   return (
     <div className={styles.cardContainer}>
       <Card className={styles.card}>
@@ -15,7 +17,18 @@ function BookCard({book}) {
           <Card.Text className={styles.cardText}>
             Some quick example text...
           </Card.Text>
-          <AppButton type="details" useAs="NavLink" dest={`${book.id}`}>View Details</AppButton>
+          {location.pathname === "/app/tracker" ? (
+            <div className={styles.buttonGroup}>
+              <AppButton type="details" useAs="NavLink" dest={`${book.id}`}>
+                Give your Rating
+              </AppButton>
+              <AppButton type="stop">Stop Tracking</AppButton>
+            </div>
+          ) : (
+            <AppButton type="details" useAs="NavLink" dest={`${book.id}`}>
+              view details
+            </AppButton>
+          )}
         </Card.Body>
       </Card>
     </div>
