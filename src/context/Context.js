@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import Search from "../components/Search";
 
 const Context = createContext();
 
@@ -26,10 +27,23 @@ function ContextProvider({ children }) {
   function logout() {
     setLoggedIn(false);
   }
+
+  //debounce function for search
+  // function debounce(func, timeout = 100) {
+  //   let timer;
+  //   return (...args) => {
+  //     clearTimeout(timer);
+  //     timer = setTimeout(() => {
+  //       func.apply(this, args);
+  //     }, timeout);
+  //   };
+  // }
+
   useEffect(
     function () {
-      async function fetchBook() {
+      const debounce = setTimeout(async () => {
         try {
+          if (!search) return;
           const res = await fetch(`${GOOGLEAPIURL}?q=${search}`);
           const data = await res.json();
           const bookItem = data.items;
@@ -52,8 +66,14 @@ function ContextProvider({ children }) {
         } catch {
           console.log("error fetching ");
         }
-      }
-      fetchBook();
+      }, 1000);
+
+      // if (search !== "") {
+      //   fetchdata(search);
+      // } else {
+      //   return;
+      // }
+      return () => clearTimeout(debounce);
     },
     [search]
   );

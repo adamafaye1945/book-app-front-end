@@ -7,16 +7,20 @@ function Tracker() {
   const [show, setShow] = useState(false);
   const [trackedBook, setTrackedBook] = useState(null);
   const [bookAtRate, setBookAtRate] = useState(null);
+
+  // track size of local storage
   const [size, setSize] = useState(localStorage.length);
   function handleClose(id) {
     setShow(!show);
     const clickedItem = JSON.parse(localStorage.getItem(id));
     setBookAtRate(clickedItem);
   }
+
   function handleDelete(id) {
     localStorage.removeItem(id);
-    setSize(localStorage.length)
+    setSize(localStorage.length);
   }
+
   useEffect(
     function () {
       function fetchStoredBook() {
@@ -45,7 +49,7 @@ function Tracker() {
               <BookCard
                 book={book}
                 rate={() => handleClose(book.bookId)}
-                stop = {() =>handleDelete(book.bookId)}
+                stop={() => handleDelete(book.bookId)}
                 key={book.bookId}
               />
             ))}
