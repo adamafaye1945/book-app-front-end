@@ -13,12 +13,9 @@ function BookDetails() {
 
   function storeBookInDatabase() {
     if (!displayedBook) return;
-    const bookStored = { ...displayedBook, tracked: true }
-    console.log(bookStored)
-    localStorage.setItem(
-      displayedBook.bookId,
-      JSON.stringify(bookStored)
-    );
+    const bookStored = { ...displayedBook, tracked: true };
+    console.log(bookStored);
+    localStorage.setItem(displayedBook.bookId, JSON.stringify(bookStored));
     setDisplayedBook(bookStored);
   }
 
@@ -38,10 +35,16 @@ function BookDetails() {
             title,
             authors,
             tracked: false,
+            reflection: "",
+            userRating: 0,
           };
           if (volumeInfo.publisher && volumeInfo.publishedDate) {
             const { publisher, publishedDate } = volumeInfo;
             currentBook = { ...currentBook, publisher, publishedDate };
+          }
+          if (volumeInfo.averageRating) {
+            const { averageRating } = volumeInfo;
+            currentBook = { ...currentBook, averageRating };
           }
           if (volumeInfo.description) {
             let { description } = volumeInfo;

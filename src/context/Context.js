@@ -1,6 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import Search from "../components/Search";
 
 const Context = createContext();
 
@@ -16,6 +15,8 @@ const booksobj = [
 ];
 
 function ContextProvider({ children }) {
+  const [rating, setRating] = useState(0);
+  const [hover, setHover] = useState(0);
   const GOOGLEAPIURL = "https://www.googleapis.com/books/v1/volumes";
   const navigator = useNavigate();
   const [search, setSearch] = useState("");
@@ -89,6 +90,10 @@ function ContextProvider({ children }) {
         loggedIn,
         login,
         logout,
+        setHover,
+        hover,
+        setRating,
+        rating,
       }}
     >
       {children}

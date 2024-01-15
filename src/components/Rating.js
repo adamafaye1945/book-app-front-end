@@ -2,6 +2,7 @@ import Offcanvas from "react-bootstrap/Offcanvas";
 import { Form } from "react-bootstrap";
 import AppButton from "./AppButton";
 import styles from "./Rating.module.css";
+import StarRating from "./StarRating";
 function Rating({ book, show, handleClose }) {
   return (
     <>
@@ -19,6 +20,7 @@ function Rating({ book, show, handleClose }) {
               <Form.Label>Give your quick reflection</Form.Label>
               <Form.Control as="textarea" />
             </Form.Group>
+            <StarRating />
             <AppButton type="rate">RATE! </AppButton>
           </Form>
         </Offcanvas.Body>
