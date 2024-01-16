@@ -15,7 +15,7 @@ function BookCard({ book, rate, stop }) {
             {book.title} by {book.authors}
           </Card.Title>
           <Card.Text className={styles.cardText}>
-            Some quick example text...
+            Rated ar 
           </Card.Text>
           {location.pathname === "/app/tracker" ? (
             <div className={styles.buttonGroup}>
