@@ -22,6 +22,17 @@ function ContextProvider({ children }) {
   const [search, setSearch] = useState("");
   const [books, setBooks] = useState(booksobj);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [reflection, setReflection] = useState("");
+  function updateBookReflection(book, userReflection, rating) {
+    localStorage.setItem(
+      book.bookId,
+      JSON.stringify({
+        ...book,
+        reflection: userReflection,
+        userRating: rating,
+      })
+    );
+  }
   function login() {
     setLoggedIn(true);
   }
@@ -94,6 +105,9 @@ function ContextProvider({ children }) {
         hover,
         setRating,
         rating,
+        reflection,
+        setReflection,
+        updateBookReflection,
       }}
     >
       {children}

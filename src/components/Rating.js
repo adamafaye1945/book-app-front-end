@@ -5,7 +5,15 @@ import styles from "./Rating.module.css";
 import StarRating from "./StarRating";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { useAppContext } from "../context/Context";
 function Rating({ book, show, handleClose }) {
+  const { rating, reflection, setReflection, updateBookReflection } =
+    useAppContext();
+  function handleSubmit() {
+    updateBookReflection(book, reflection, rating);
+    handleClose();
+    setReflection("");
+  }
   return (
     <>
       <Offcanvas show={show} onHide={handleClose}>
@@ -20,16 +28,22 @@ function Rating({ book, show, handleClose }) {
             <Form>
               <Form.Group>
                 <Form.Label>Give your quick reflection</Form.Label>
-                <Form.Control as="textarea" />
+                <Form.Control
+                  as="textarea"
+                  value={reflection}
+                  onChange={(e) => setReflection(e.target.value)}
+                />
               </Form.Group>
               <Form.Text>
                 {book.averageRating === undefined
-                  ? `No reported average rating for ${book.title}`
-                  : `${book.title} has an average rating of ${book.averageRating}`}
+                  ? `No reported average rating for ${book.title} `
+                  : `${book.title} has an average rating of ${book.averageRating} `}
                 <FontAwesomeIcon icon={faStar} style={{ color: "orange" }} />
               </Form.Text>
               <StarRating />
-              <AppButton type="rate">RATE! </AppButton>
+              <AppButton  type="rate" action={handleSubmit}>
+                RATE!{" "}
+              </AppButton>
             </Form>
           </div>
         </Offcanvas.Body>

@@ -9,20 +9,25 @@ function BookCard({ book, rate, stop }) {
   return (
     <div className={styles.cardContainer}>
       <Card className={styles.card}>
-        <Card.Img variant="top" src={book.imageUrl} className={styles.cardImage} />
+        <Card.Img
+          variant="top"
+          src={book.imageUrl}
+          className={styles.cardImage}
+        />
         <Card.Body>
           <Card.Title>
             {book.title} by {book.authors}
           </Card.Title>
-          <Card.Text className={styles.cardText}>
-            Rated ar 
-          </Card.Text>
+          <Card.Text className={styles.cardText}>Rated ar</Card.Text>
           {location.pathname === "/app/tracker" ? (
             <div className={styles.buttonGroup}>
               <AppButton action={rate} type="details">
-                Give your Rating
+                Rate
               </AppButton>
-              <AppButton action = {stop } type="stop">Stop Tracking</AppButton>
+              <AppButton action={stop} type="stop">
+                Untrack
+              </AppButton>
+              <AppButton type="details">View </AppButton>
             </div>
           ) : (
             <AppButton type="details" useAs="NavLink" dest={`${book.id}`}>

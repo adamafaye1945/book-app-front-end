@@ -10,10 +10,16 @@ function Tracker() {
 
   // track size of local storage
   const [size, setSize] = useState(localStorage.length);
+
+  
   function handleClose(id) {
     setShow(!show);
-    const clickedItem = JSON.parse(localStorage.getItem(id));
-    setBookAtRate(clickedItem);
+    // show is going to be true but have to get clicked item before
+    // if it was true, its  just for closing the off canvas
+    if (show === false) {
+      const clickedItem = JSON.parse(localStorage.getItem(id));
+      setBookAtRate(clickedItem);
+    }
   }
 
   function handleDelete(id) {
