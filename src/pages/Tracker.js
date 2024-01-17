@@ -55,6 +55,7 @@ function Tracker() {
                 book={book}
                 rate={() => handleClose(book.bookId)}
                 stop={() => handleDelete(book.bookId)}
+                view={() => handleClose(book.bookId)}
                 key={book.bookId}
               />
             ))}
