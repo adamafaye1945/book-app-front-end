@@ -36,6 +36,7 @@ function BookDetails() {
             authors,
             tracked: false,
             reflection: "",
+            reviewed: false,
             userRating: 0,
           };
           if (volumeInfo.publisher && volumeInfo.publishedDate) {

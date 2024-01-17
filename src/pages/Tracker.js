@@ -11,7 +11,6 @@ function Tracker() {
   // track size of local storage
   const [size, setSize] = useState(localStorage.length);
 
-  
   function handleClose(id) {
     setShow(!show);
     // show is going to be true but have to get clicked item before
@@ -42,7 +41,7 @@ function Tracker() {
       }
       fetchStoredBook();
     },
-    [size]
+    [size, show]
   );
 
   return (

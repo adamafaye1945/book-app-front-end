@@ -30,6 +30,7 @@ function ContextProvider({ children }) {
         ...book,
         reflection: userReflection,
         userRating: rating,
+        reviewed: true,
       })
     );
   }

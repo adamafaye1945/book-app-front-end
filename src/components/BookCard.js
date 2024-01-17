@@ -21,7 +21,7 @@ function BookCard({ book, rate, stop }) {
           <Card.Text className={styles.cardText}>Rated ar</Card.Text>
           {location.pathname === "/app/tracker" ? (
             <div className={styles.buttonGroup}>
-              <AppButton action={rate} type="details">
+              <AppButton reviewed={book.reviewed} action={rate} type="details">
                 Rate
               </AppButton>
               <AppButton action={stop} type="stop">

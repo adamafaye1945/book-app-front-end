@@ -10,6 +10,7 @@ function AppButton({
   dest,
   action,
   tracked,
+  reviewed,
 }) {
   const buttonClasses = `${styles[type]} ${classAdded} `;
 
@@ -21,7 +22,7 @@ function AppButton({
         variant="outline-custom"
         className={buttonClasses}
         onClick={action}
-        disabled={tracked}
+        disabled={tracked || reviewed}
       >
         {children}
       </Button>

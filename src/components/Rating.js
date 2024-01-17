@@ -24,28 +24,38 @@ function Rating({ book, show, handleClose }) {
         </Offcanvas.Header>
         <Offcanvas.Body>
           <img src={book.imageUrl} alt="" />
-          <div className={styles.form}>
-            <Form>
-              <Form.Group>
-                <Form.Label>Give your quick reflection</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  value={reflection}
-                  onChange={(e) => setReflection(e.target.value)}
-                />
-              </Form.Group>
-              <Form.Text>
-                {book.averageRating === undefined
-                  ? `No reported average rating for ${book.title} `
-                  : `${book.title} has an average rating of ${book.averageRating} `}
+          {!book.reflection ? (
+            <div className={styles.form}>
+              <Form>
+                <Form.Group>
+                  <Form.Label>Give your quick reflection</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    value={reflection}
+                    onChange={(e) => setReflection(e.target.value)}
+                  />
+                </Form.Group>
+                <Form.Text>
+                  {book.averageRating === undefined
+                    ? `No reported average rating for ${book.title} `
+                    : `${book.title} has an average rating of ${book.averageRating} `}
+                  <FontAwesomeIcon icon={faStar} style={{ color: "orange" }} />
+                </Form.Text>
+                <StarRating />
+                <AppButton type="rate" action={handleSubmit}>
+                  RATE!{" "}
+                </AppButton>
+              </Form>
+            </div>
+          ) : (
+            <div style={{ marginTop: "40px" }}>
+              <p>Your reflection: {book.reflection}</p>
+              <p>
+                You gave the book a {book.userRating}{" "}
                 <FontAwesomeIcon icon={faStar} style={{ color: "orange" }} />
-              </Form.Text>
-              <StarRating />
-              <AppButton  type="rate" action={handleSubmit}>
-                RATE!{" "}
-              </AppButton>
-            </Form>
-          </div>
+              </p>
+            </div>
+          )}
         </Offcanvas.Body>
       </Offcanvas>
     </>
