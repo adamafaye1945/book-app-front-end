@@ -1,16 +1,17 @@
 import { Nav, Container, Navbar } from "react-bootstrap";
 import styles from "./AppNavbar.module.css";
-import { NavLink } from "react-router-dom";
-import { useAppContext } from "../context/Context";
+import { NavLink, useLocation } from "react-router-dom";
 function AppNavbar() {
-  const { loggedIn } = useAppContext();
+  const location = useLocation();
   return (
     <Navbar className={styles.bgColor}>
       <Container>
         <Navbar.Brand as={NavLink} to="/">
           BookTracker 📚
         </Navbar.Brand>
-        {!loggedIn ? (
+        {location.pathname === "/" ||
+        location.pathname === "/login" ||
+        location.pathname === "/signup" ? (
           <Nav className="justify-content-end">
             <Nav.Link as={NavLink} to="/login">
               Login
