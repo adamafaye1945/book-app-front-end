@@ -6,7 +6,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearchengin } from "@fortawesome/free-brands-svg-icons";
 
 function Search() {
-  const { setSearch, search } = useAppContext();
+  const { setBooks, setSearch, search } = useAppContext();
+  function clearSearch() {
+    setSearch("");
+    setBooks(null);
+  }
   return (
     <div>
       <h1 className={styles.search}>Search books 📕</h1>
@@ -29,7 +33,9 @@ function Search() {
             </InputGroup>
           </Col>
           <Col sm="5">
-            <AppButton type="search">CLEAR SEARCH</AppButton>
+            <AppButton type="search" action={clearSearch}>
+              CLEAR SEARCH
+            </AppButton>
           </Col>
         </Form.Group>
       </Form>

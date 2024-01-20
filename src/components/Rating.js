@@ -6,6 +6,7 @@ import StarRating from "./StarRating";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { useAppContext } from "../context/Context";
+
 function Rating({ book, show, handleClose }) {
   const { rating, reflection, setReflection, updateBookReflection } =
     useAppContext();

@@ -10,7 +10,7 @@ function AppNavbar() {
         <Navbar.Brand as={NavLink} to="/">
           BookTracker 📚
         </Navbar.Brand>
-        {/* {!loggedIn ? (
+        {!loggedIn ? (
           <Nav className="justify-content-end">
             <Nav.Link as={NavLink} to="/login">
               Login
@@ -20,19 +20,20 @@ function AppNavbar() {
               Signup
             </Nav.Link>
           </Nav>
-        ) : ( */}
-        <Nav variant="tabs" className={styles.tabs}>
-          <Nav.Item>
-            <Nav.Link as={NavLink} to="/app/search">
-              Search
-            </Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link as={NavLink} to="/app/tracker">
-              Tracker
-            </Nav.Link>
-          </Nav.Item>
-        </Nav>
+        ) : (
+          <Nav variant="tabs" className={styles.tabs}>
+            <Nav.Item>
+              <Nav.Link as={NavLink} to="/app/search">
+                Search
+              </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link as={NavLink} to="/app/tracker">
+                Tracker
+              </Nav.Link>
+            </Nav.Item>
+          </Nav>
+        )}
       </Container>
     </Navbar>
   );

@@ -10,9 +10,10 @@ function BookList() {
         <AppSpinner />
       ) : (
         <div className={styles.bookCardsContainer}>
-          {books.map((curr_book) => (
-            <BookCard book={curr_book} key={curr_book.id} />
-          ))}
+          {books &&
+            books.map((curr_book) => (
+              <BookCard book={curr_book} key={curr_book.id} />
+            ))}
         </div>
       )}
     </div>
