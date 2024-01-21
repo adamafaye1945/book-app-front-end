@@ -4,7 +4,7 @@ import AppButton from "../components/AppButton";
 import styles from "./form.module.css";
 import { useAuthContext } from "../context/authentification";
 function Login() {
-  const { email, setEmail, password, setPassword, authenticate } =
+  const { email, setEmail, password, setPassword, authenticate, error } =
     useAuthContext();
   return (
     <>
@@ -37,6 +37,11 @@ function Login() {
               <AppButton type="signup">Sign Up</AppButton>
             </div>
           </Form>
+          {error && (
+            <p style={{ color: "red" }}>
+              Invalid user credentials or unknown user. Sign up for free!
+            </p>
+          )}
         </div>
       </div>
     </>

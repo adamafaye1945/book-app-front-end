@@ -15,6 +15,7 @@ function Authentification({ children }) {
     authenticated: false,
   };
   const [user, setUser] = useState(current_user);
+  const [error, setError] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigator = useNavigate();
@@ -26,12 +27,16 @@ function Authentification({ children }) {
         authenticated: true,
       });
       navigator("/app/search");
+      return;
     }
+    setError(true);
   }
 
   return (
     <div>
-      <Context.Provider value={{ setEmail, setPassword, authenticate, user }}>
+      <Context.Provider
+        value={{ setEmail, setPassword, authenticate, user, error }}
+      >
         {children}
       </Context.Provider>
     </div>
