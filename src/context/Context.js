@@ -1,5 +1,4 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router";
 
 const Context = createContext();
 
@@ -18,10 +17,10 @@ function ContextProvider({ children }) {
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
   const GOOGLEAPIURL = "https://www.googleapis.com/books/v1/volumes";
-  const navigator = useNavigate();
+
   const [search, setSearch] = useState("");
   const [books, setBooks] = useState(booksobj);
-  const [loggedIn, setLoggedIn] = useState(false);
+
   const [reflection, setReflection] = useState("");
   const [loading, setLoading] = useState(false);
   function updateBookReflection(book, userReflection, rating) {
@@ -34,12 +33,6 @@ function ContextProvider({ children }) {
         reviewed: true,
       })
     );
-  }
-  function login() {
-    setLoggedIn(true);
-  }
-  function logout() {
-    setLoggedIn(false);
   }
 
   useEffect(
@@ -84,9 +77,7 @@ function ContextProvider({ children }) {
         books,
         setBooks,
         GOOGLEAPIURL,
-        loggedIn,
-        login,
-        logout,
+
         setHover,
         hover,
         setRating,
