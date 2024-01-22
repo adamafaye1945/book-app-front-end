@@ -6,6 +6,6 @@
   border: white;
 }
 .tabs :hover {
-  border-color: yellow !important;
+  /* border-color: #e6b325 !important; */
   color: aliceblue;
 }

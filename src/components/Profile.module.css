@@ -2,3 +2,11 @@
   border-radius: 50%;
   width: 50px;
 }
+
+.profile {
+  background-color: #e6b325 !important;
+  border-color: #e6b325;
+}
+.profile:hover {
+  border-color: #e6b325;
+}
