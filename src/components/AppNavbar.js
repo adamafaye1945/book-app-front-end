@@ -1,6 +1,8 @@
 import { Nav, Container, Navbar } from "react-bootstrap";
 import styles from "./AppNavbar.module.css";
 import { NavLink, useLocation } from "react-router-dom";
+import Profile from "./Profile";
+
 function AppNavbar() {
   const location = useLocation();
   return (
@@ -20,6 +22,7 @@ function AppNavbar() {
             <Nav.Link as={NavLink} to="/signup">
               Signup
             </Nav.Link>
+            <Nav.Link></Nav.Link>
           </Nav>
         ) : (
           <Nav variant="tabs" className={styles.tabs}>
@@ -32,6 +35,9 @@ function AppNavbar() {
               <Nav.Link as={NavLink} to="/app/tracker">
                 Tracker
               </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Profile />
             </Nav.Item>
           </Nav>
         )}

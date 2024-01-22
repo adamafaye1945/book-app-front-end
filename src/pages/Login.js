@@ -25,7 +25,7 @@ function Login() {
               <Form.Label>Password</Form.Label>
               <Form.Control
                 type="password"
-                placeholder="enter password"
+                placeholder="Enter password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               ></Form.Control>
@@ -39,7 +39,7 @@ function Login() {
           </Form>
           {error && (
             <p style={{ color: "red" }}>
-              Invalid user credentials or unknown user. Sign up for free!
+              ****Invalid user credentials or unknown user. Sign up for free!*****
             </p>
           )}
         </div>

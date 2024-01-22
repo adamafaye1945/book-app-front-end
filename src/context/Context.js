@@ -62,7 +62,7 @@ function ContextProvider({ children }) {
         } finally {
           setLoading(false);
         }
-      }, 1000);
+      }, 400);
 
       return () => clearTimeout(debounce);
     },

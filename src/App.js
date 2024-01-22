@@ -16,13 +16,18 @@ function App() {
         <Route index element={<Homepage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        {user.authenticated && (
+        {/* {user.authenticated && (
           <Route path="/app">
             <Route path="search" element={<AppLayout />} />
             <Route path="search/:id" element={<BookDetails />} />
             <Route path="tracker" element={<Tracker />} />
           </Route>
-        )}
+        )} */}
+        <Route path="/app">
+          <Route path="search" element={<AppLayout />} />
+          <Route path="search/:id" element={<BookDetails />} />
+          <Route path="tracker" element={<Tracker />} />
+        </Route>
 
         <Route path="*" element="PAGE NOT FOUND" />
       </Routes>
