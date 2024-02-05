@@ -4,16 +4,21 @@ import styles from "./Search.module.css";
 import AppButton from "./AppButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearchengin } from "@fortawesome/free-brands-svg-icons";
+import { useAuthContext } from "../context/authentification";
 
 function Search() {
   const { setBooks, setSearch, search } = useAppContext();
+  const { user } = useAuthContext();
   function clearSearch() {
     setSearch("");
     setBooks(null);
   }
   return (
     <div>
-      <h1 className={styles.search}>Search books 📕</h1>
+      <div className={styles.search}>
+        <h1>Hello, {user.details.name}</h1>
+        <h2>Search your books below 📕 </h2>
+      </div>
 
       <Form className={styles.form}>
         <Form.Group as={Row}>

@@ -3,39 +3,84 @@ import { useNavigate } from "react-router";
 
 const Context = createContext();
 
-const USER = {
-  name: "adama",
-  email: "adama1945@hotmail.com",
-  password: "pass",
-};
+// const USER = {
+//   name: "adama",
+//   email: "adama1945@hotmail.com",
+//   password: "pass",
+// };
 
 function Authentification({ children }) {
-  const current_user = {
+  const [user, setUser] = useState({
     details: null,
     authenticated: false,
-  };
-  const [user, setUser] = useState(current_user);
+  });
   const [error, setError] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigator = useNavigate();
-  function authenticate() {
+
+  async function authenticate() {
     //api to authenticate will be here for now, we use obj
-    if (email === USER.email && password === USER.password) {
-      setUser({
-        details: { name: USER.name },
-        authenticated: true,
-      });
-      navigator("/app/search");
-      return;
+    try {
+      const res = await fetch(
+        `https://adamafaye1945.pythonanywhere.com/login?email=${loginEmail}&password=${loginPassword}`
+      );
+      if (!res.ok) {
+        throw new Error("no user found");
+      }
+      const data = await res.json();
+      const userObj = data.user
+      console.log(userObj)
+      if (userObj) {
+        setUser({
+          details: userObj,
+          authenticated: true,
+        });
+        navigator("app/search");
+        return;
+      }
+    } catch {
+      setError(true);
     }
-    setError(true);
+  }
+  async function addUser(email, password, name) {
+    setLoading(true);
+    const user = JSON.stringify({
+      name,
+      email,
+      password,
+    });
+    try {
+      await fetch("https://adamafaye1945.pythonanywhere.com/add_user", {
+        method: "POST",
+        body: user,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
     <div>
       <Context.Provider
-        value={{ setEmail, setPassword, authenticate, user, error }}
+        value={{
+          setLoginEmail,
+          setLoginPassword,
+          loginEmail,
+          loginPassword,
+          authenticate,
+          user,
+          error,
+          loading,
+          addUser,
+          navigator,
+        }}
       >
         {children}
       </Context.Provider>
@@ -49,4 +94,5 @@ function useAuthContext() {
   }
   return context;
 }
+
 export { Authentification, useAuthContext };

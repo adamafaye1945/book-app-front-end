@@ -4,8 +4,20 @@ import AppButton from "../components/AppButton";
 import styles from "./form.module.css";
 import { useAuthContext } from "../context/authentification";
 function Login() {
-  const { email, setEmail, password, setPassword, authenticate, error } =
-    useAuthContext();
+  const {
+    loginEmail,
+    setLoginEmail,
+    loginPassword,
+    setLoginPassword,
+    authenticate,
+    error,
+  } = useAuthContext();
+
+  function handleAuth() {
+    if (!loginEmail || !loginPassword) return;
+    authenticate()
+  }
+
   return (
     <>
       <AppNavbar />
@@ -17,8 +29,8 @@ function Login() {
               <Form.Control
                 type="email"
                 placeholder="Enter email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={loginEmail}
+                onChange={(e) => setLoginEmail(e.target.value)}
               />
             </Form.Group>
             <Form.Group>
@@ -26,12 +38,12 @@ function Login() {
               <Form.Control
                 type="password"
                 placeholder="Enter password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={loginPassword}
+                onChange={(e) => setLoginPassword(e.target.value)}
               ></Form.Control>
             </Form.Group>
             <div className={styles.buttonGroup}>
-              <AppButton type="login" action={authenticate}>
+              <AppButton type="login" action={handleAuth}>
                 Login
               </AppButton>
               <AppButton type="signup">Sign Up</AppButton>
@@ -39,7 +51,8 @@ function Login() {
           </Form>
           {error && (
             <p style={{ color: "red" }}>
-              ****Invalid user credentials or unknown user. Sign up for free!*****
+              ****Invalid user credentials or unknown user. Sign up for
+              free!*****
             </p>
           )}
         </div>

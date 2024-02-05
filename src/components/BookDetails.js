@@ -11,9 +11,28 @@ function BookDetails() {
   const { GOOGLEAPIURL: url } = useAppContext();
   const [displayedBook, setDisplayedBook] = useState();
 
-  function storeBookInDatabase() {
+  async function storeBookInDatabase() {
     if (!displayedBook) return;
     const bookStored = { ...displayedBook, tracked: true };
+    const booksData = {
+      bookId: displayedBook.bookId,
+      title: displayedBook.title,
+      imageUrl: displayedBook.imageUrl,
+      averageRating: 4,
+      author_name: displayedBook.authors[0],
+    };
+
+    try {
+      await fetch("https://adamafaye1945.pythonanywhere.com/add_book", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(booksData),
+      }).then((response) => console.log(response.text()));
+    } catch (error) {
+      console.log(error);
+    }
     console.log(bookStored);
     localStorage.setItem(displayedBook.bookId, JSON.stringify(bookStored));
     setDisplayedBook(bookStored);
