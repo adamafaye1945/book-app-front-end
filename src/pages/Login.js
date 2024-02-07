@@ -3,6 +3,7 @@ import AppNavbar from "../components/AppNavbar";
 import AppButton from "../components/AppButton";
 import styles from "./form.module.css";
 import { useAuthContext } from "../context/authentification";
+import AppSpinner from "../components/Spinner";
 function Login() {
   const {
     loginEmail,
@@ -11,11 +12,12 @@ function Login() {
     setLoginPassword,
     authenticate,
     error,
+    loading,
   } = useAuthContext();
 
   function handleAuth() {
     if (!loginEmail || !loginPassword) return;
-    authenticate()
+    authenticate();
   }
 
   return (
@@ -43,10 +45,13 @@ function Login() {
               ></Form.Control>
             </Form.Group>
             <div className={styles.buttonGroup}>
-              <AppButton type="login" action={handleAuth}>
-                Login
-              </AppButton>
-              <AppButton type="signup">Sign Up</AppButton>
+              {loading ? (
+                <AppSpinner />
+              ) : (
+                <AppButton type="login" action={handleAuth}>
+                  Login
+                </AppButton>
+              )}
             </div>
           </Form>
           {error && (

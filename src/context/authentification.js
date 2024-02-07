@@ -23,6 +23,7 @@ function Authentification({ children }) {
   async function authenticate() {
     //api to authenticate will be here for now, we use obj
     try {
+      setLoading(true)
       const res = await fetch(
         `https://adamafaye1945.pythonanywhere.com/login?email=${loginEmail}&password=${loginPassword}`
       );
@@ -42,6 +43,8 @@ function Authentification({ children }) {
       }
     } catch {
       setError(true);
+    }finally{
+      setLoading(false)
     }
   }
   async function addUser(email, password, name) {

@@ -35,7 +35,7 @@ function Signup() {
             <Form.Group>
               <Form.Label>What's your name</Form.Label>
               <Form.Control
-                placeholder="enter username"
+                placeholder="enter a nickname or first name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
