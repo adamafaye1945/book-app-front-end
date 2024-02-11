@@ -27,6 +27,7 @@
   border: #6ac0df;
 }
 .stop {
+  /* margin-top: 20px; */
   border-color: black;
 }
 .stop:hover {

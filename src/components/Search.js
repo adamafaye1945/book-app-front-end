@@ -25,7 +25,7 @@ function Search() {
           <Form.Label column sm="2">
             Search any book or authors
           </Form.Label>
-          <Col sm="5">
+          <Col sm="7">
             <InputGroup>
               <InputGroup.Text>
                 <FontAwesomeIcon icon={faSearchengin} />
@@ -37,7 +37,7 @@ function Search() {
               />
             </InputGroup>
           </Col>
-          <Col sm="5">
+          <Col sm="3">
             <AppButton type="search" action={clearSearch}>
               CLEAR SEARCH
             </AppButton>

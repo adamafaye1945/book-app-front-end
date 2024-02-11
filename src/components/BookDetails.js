@@ -121,6 +121,9 @@ function BookDetails() {
                     ? `Track ${displayedBook.title}`
                     : `Already Tracking ${displayedBook.title}`}
                 </AppButton>
+                <AppButton type="stop" useAs="NavLink" dest="/app/search">
+                  Go back{" "}
+                </AppButton>
               </Card.Body>
             </div>
           </Card>

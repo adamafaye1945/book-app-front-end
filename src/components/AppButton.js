@@ -11,6 +11,7 @@ function AppButton({
   action,
   tracked,
   reviewed,
+  style
 }) {
   const buttonClasses = `${styles[type]} ${classAdded} `;
 
@@ -23,6 +24,7 @@ function AppButton({
         className={buttonClasses}
         onClick={action}
         disabled={tracked || reviewed}
+        style={style}
       >
         {children}
       </Button>

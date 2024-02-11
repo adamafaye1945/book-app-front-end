@@ -48,9 +48,14 @@ function Login() {
               {loading ? (
                 <AppSpinner />
               ) : (
-                <AppButton type="login" action={handleAuth}>
-                  Login
-                </AppButton>
+                <>
+                  <AppButton type="login" action={handleAuth}>
+                    Login
+                  </AppButton>
+                  <AppButton type="signup" useAs="NavLink" dest="/signup">
+                    Sign Up For Free!
+                  </AppButton>
+                </>
               )}
             </div>
           </Form>
