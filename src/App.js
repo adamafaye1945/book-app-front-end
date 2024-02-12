@@ -24,13 +24,9 @@ function App() {
             <Route path="tracker" element={<Tracker />} />
           </Route>
         )}
-        <Route path="/app">
-          <Route path="search" element={<AppLayout />} />
-          <Route path="search/:id" element={<BookDetails />} />
-          <Route path="tracker" element={<Tracker />} />
-        </Route>
+    
 
-        <Route path="*" element="PAGE NOT FOUND" />
+        <Route path="*" element="PAGE NOT FOUND OR UNAUTHORIZED ACCESS TO THE PAGE" />
       </Routes>
     </ContextProvider>
   );

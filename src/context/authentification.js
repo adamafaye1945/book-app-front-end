@@ -31,7 +31,7 @@ function Authentification({ children }) {
         throw new Error("no user found");
       }
       const data = await res.json();
-      const userObj = data.user
+      const userObj = data
       console.log(userObj)
       if (userObj) {
         setUser({

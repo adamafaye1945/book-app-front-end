@@ -5,12 +5,13 @@ import { useParams } from "react-router";
 import { useEffect, useState } from "react";
 import { useAppContext } from "../context/Context";
 import AppButton from "./AppButton.js";
+import { useAuthContext } from "../context/authentification";
 
 function BookDetails() {
   const { id } = useParams();
   const { GOOGLEAPIURL: url } = useAppContext();
   const [displayedBook, setDisplayedBook] = useState();
-
+  const {user} = useAuthContext()
   async function storeBookInDatabase() {
     if (!displayedBook) return;
     const bookStored = { ...displayedBook, tracked: true };
@@ -27,6 +28,7 @@ function BookDetails() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${user.details.access_token}`
         },
         body: JSON.stringify(booksData),
       }).then((response) => console.log(response.text()));
@@ -43,7 +45,7 @@ function BookDetails() {
       async function fetchBook() {
         try {
           let currentBook = {};
-          const res = await fetch(`${url}/${id}`);
+          const res = await fetch(`${url}/${id}`)  ;
 
           const data = await res.json();
           const volumeInfo = data.volumeInfo;

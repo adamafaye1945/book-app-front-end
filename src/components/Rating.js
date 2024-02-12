@@ -49,7 +49,7 @@ function Rating({ book, show, handleClose }) {
               </Form>
             </div>
           ) : (
-            <div style={{ marginTop: "40px" }}>
+            <div style={{ marginTop: "40px", maxWidth:"fit-content "  }}>
               <p>Your reflection: {book.reflection}</p>
               <p>
                 You gave the book a {book.userRating}{" "}
