@@ -11,41 +11,37 @@ function BookDetails() {
   const { id } = useParams();
   const { GOOGLEAPIURL: url } = useAppContext();
   const [displayedBook, setDisplayedBook] = useState();
-  const {user} = useAuthContext()
-  async function storeBookInDatabase() {
+  async function storeBookInSessionStorage() {
     if (!displayedBook) return;
     const bookStored = { ...displayedBook, tracked: true };
-    const booksData = {
-      bookId: displayedBook.bookId,
-      title: displayedBook.title,
-      imageUrl: displayedBook.imageUrl,
-      averageRating: 4,
-      author_name: displayedBook.authors[0],
-    };
 
-    try {
-      await fetch("https://adamafaye1945.pythonanywhere.com/add_book", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${user.details.access_token}`
-        },
-        body: JSON.stringify(booksData),
-      }).then((response) => console.log(response.text()));
-    } catch (error) {
-      console.log(error);
-    }
-    console.log(bookStored);
-    localStorage.setItem(displayedBook.bookId, JSON.stringify(bookStored));
+    sessionStorage.setItem(bookStored.bookId, JSON.stringify(bookStored));
     setDisplayedBook(bookStored);
-  }
 
+    //   try {
+    //     await fetch("https://adamafaye1945.pythonanywhere.com/add_book", {
+    //       method: "POST",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //         "Authorization": `Bearer ${user.details.access_token}`
+    //       },
+    //       body: JSON.stringify(booksData),
+    //     }).then((response) => console.log(response.text()));
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    //   console.log(bookStored);
+    //   localStorage.setItem(displayedBook.bookId, JSON.stringify(bookStored));
+    //   setDisplayedBook(bookStored);
+  }
+  
+  
   useEffect(
     function () {
       async function fetchBook() {
         try {
           let currentBook = {};
-          const res = await fetch(`${url}/${id}`)  ;
+          const res = await fetch(`${url}/${id}`);
 
           const data = await res.json();
           const volumeInfo = data.volumeInfo;
@@ -83,8 +79,8 @@ function BookDetails() {
           console.error("Error fetching data", error);
         }
       }
-      if (localStorage.getItem(id)) {
-        const storedBook = JSON.parse(localStorage.getItem(id));
+      if (sessionStorage.getItem(id)) {
+        const storedBook = JSON.parse(sessionStorage.getItem(id));
         setDisplayedBook(storedBook);
         return;
       }
@@ -117,7 +113,7 @@ function BookDetails() {
                 <AppButton
                   tracked={displayedBook.tracked}
                   type={displayedBook.tracked === false ? "details" : "tracked"}
-                  action={storeBookInDatabase}
+                  action={storeBookInSessionStorage}
                 >
                   {!displayedBook.tracked
                     ? `Track ${displayedBook.title}`

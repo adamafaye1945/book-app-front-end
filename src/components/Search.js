@@ -16,7 +16,7 @@ function Search() {
   return (
     <div>
       <div className={styles.search}>
-        <h1>Hello, {user.details.name}</h1>
+        <h1>Hello, adama</h1>
         <h2>Search your books below 📕 </h2>
       </div>
 

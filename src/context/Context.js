@@ -24,7 +24,7 @@ function ContextProvider({ children }) {
   const [reflection, setReflection] = useState("");
   const [loading, setLoading] = useState(false);
   function updateBookReflection(book, userReflection, rating) {
-    localStorage.setItem(
+    sessionStorage.setItem(
       book.bookId,
       JSON.stringify({
         ...book,

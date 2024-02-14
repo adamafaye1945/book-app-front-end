@@ -3,10 +3,13 @@ import AppNavbar from "../components/AppNavbar";
 import BookCard from "../components/BookCard";
 import styles from "./Tracker.module.css";
 import Rating from "../components/Rating";
+import { useAuthContext } from "../context/authentification";
+import AppButton from "../components/AppButton";
 function Tracker() {
   const [show, setShow] = useState(false);
   const [trackedBook, setTrackedBook] = useState(null);
   const [bookAtRate, setBookAtRate] = useState(null);
+  const { user } = useAuthContext();
 
   // track size of local storage
   const [size, setSize] = useState(localStorage.length);
@@ -16,24 +19,50 @@ function Tracker() {
     // show is going to be true but have to get clicked item before
     // if it was true, its  just for closing the off canvas
     if (show === false) {
-      const clickedItem = JSON.parse(localStorage.getItem(id));
+      const clickedItem = JSON.parse(sessionStorage.getItem(id));
       setBookAtRate(clickedItem);
     }
   }
 
   function handleDelete(id) {
-    localStorage.removeItem(id);
-    setSize(localStorage.length);
+    sessionStorage.removeItem(id);
+    setSize(sessionStorage.length);
+  }
+  async function storeSessionBooksInDB() {
+    const data_bulk = [];
+    // storing every book in session in data_bulk array and stringify it
+    for (let i = 0; i < sessionStorage.length; i++) {
+      const key = sessionStorage.key(i);
+      if (key !== "React::DevTools::lastSelection") {
+        const session_book = sessionStorage.getItem(key);
+        const booksData = {
+          bookId: session_book.bookId,
+          title: session_book.title,
+          imageUrl: session_book.imageUrl,
+          averageRating: 4,
+          author_name: session_book.authors[0],
+        };
+        data_bulk.push(booksData);
+      }
+    }
+    await fetch("https://adamafaye1945.pythonanywhere.com/add_book", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${user.details.access_token}`,
+      },
+      body: JSON.stringify(data_bulk),
+    });
   }
 
   useEffect(
     function () {
       function fetchStoredBook() {
         const books = [];
-        for (let i = 0; i < localStorage.length; i++) {
-          const key = localStorage.key(i);
-          if (key !== "debug") {
-            const book = JSON.parse(localStorage.getItem(key));
+        for (let i = 0; i < sessionStorage.length; i++) {
+          const key = sessionStorage.key(i);
+          if (key !== "React::DevTools::lastSelection") {
+            const book = JSON.parse(sessionStorage.getItem(key));
             books.push(book);
           }
         }
@@ -47,6 +76,10 @@ function Tracker() {
   return (
     <div className={styles.tracker}>
       <AppNavbar />
+      <div className={styles.saveBtn}>
+        <AppButton type="details">Save Books</AppButton>
+      </div>
+
       {trackedBook && (
         <>
           <div className={styles.bookCardsContainer}>

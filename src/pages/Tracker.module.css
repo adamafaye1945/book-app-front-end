@@ -10,3 +10,9 @@
   overflow-y: auto;
   margin-top: 30px;
 }
+.saveBtn{
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+  margin-right: 20px;
+}
