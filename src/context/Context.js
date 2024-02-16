@@ -77,7 +77,7 @@ function ContextProvider({ children }) {
         books,
         setBooks,
         GOOGLEAPIURL,
-
+        setLoading,
         setHover,
         hover,
         setRating,

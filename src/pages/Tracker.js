@@ -5,10 +5,14 @@ import styles from "./Tracker.module.css";
 import Rating from "../components/Rating";
 import { useAuthContext } from "../context/authentification";
 import AppButton from "../components/AppButton";
+import { useAppContext } from "../context/Context";
+import { Spinner } from "react-bootstrap";
 function Tracker() {
   const [show, setShow] = useState(false);
   const [trackedBook, setTrackedBook] = useState(null);
   const [bookAtRate, setBookAtRate] = useState(null);
+  const [allSaved, setAllSaved] = useState(false);
+  const { loading, setLoading } = useAppContext();
   const { user } = useAuthContext();
 
   // track size of local storage
@@ -29,12 +33,13 @@ function Tracker() {
     setSize(sessionStorage.length);
   }
   async function storeSessionBooksInDB() {
+    setLoading(true);
     const data_bulk = [];
     // storing every book in session in data_bulk array and stringify it
     for (let i = 0; i < sessionStorage.length; i++) {
       const key = sessionStorage.key(i);
       if (key !== "React::DevTools::lastSelection") {
-        const session_book = sessionStorage.getItem(key);
+        const session_book = JSON.parse(sessionStorage.getItem(key));
         const booksData = {
           bookId: session_book.bookId,
           title: session_book.title,
@@ -45,15 +50,25 @@ function Tracker() {
         data_bulk.push(booksData);
       }
     }
-    await fetch("https://adamafaye1945.pythonanywhere.com/add_book", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${user.details.access_token}`,
-      },
-      body: JSON.stringify(data_bulk),
-    });
+    console.log(data_bulk)
+    if (data_bulk.length === 0) return;
+    try {
+      await fetch("https://adamafaye1945.pythonanywhere.com/add_book", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${user.details.access_token}`,
+        },
+        body: JSON.stringify(data_bulk),
+      });
+      setAllSaved(true);
+    } catch (error){
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   }
+  
 
   useEffect(
     function () {
@@ -67,6 +82,7 @@ function Tracker() {
           }
         }
         setTrackedBook(books);
+        setAllSaved(false);
       }
       fetchStoredBook();
     },
@@ -77,7 +93,10 @@ function Tracker() {
     <div className={styles.tracker}>
       <AppNavbar />
       <div className={styles.saveBtn}>
-        <AppButton type="details">Save Books</AppButton>
+        <AppButton type="details" action={storeSessionBooksInDB} saved={allSaved}>
+          {loading ? <Spinner animation="border"/>:
+          allSaved ? "All Saved" : "Save your books"}
+        </AppButton>
       </div>
 
       {trackedBook && (
