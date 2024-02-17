@@ -33,11 +33,14 @@ function Authentification({ children }) {
       const data = await res.json();
       const userObj = data
       console.log(userObj)
+      
       if (userObj) {
         setUser({
           details: userObj,
           authenticated: true,
         });
+        const {access_token} = userObj
+        sessionStorage.setItem("current_user", JSON.stringify(access_token))
         navigator("app/search");
         return;
       }
@@ -68,6 +71,7 @@ function Authentification({ children }) {
       setLoading(false);
     }
   }
+  
 
   return (
     <div>
