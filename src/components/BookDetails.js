@@ -34,8 +34,7 @@ function BookDetails() {
     //   localStorage.setItem(displayedBook.bookId, JSON.stringify(bookStored));
     //   setDisplayedBook(bookStored);
   }
-  
-  
+
   useEffect(
     function () {
       async function fetchBook() {
@@ -119,9 +118,12 @@ function BookDetails() {
                     ? `Track ${displayedBook.title}`
                     : `Already Tracking ${displayedBook.title}`}
                 </AppButton>
-                <AppButton type="stop" useAs="NavLink" dest="/app/search">
-                  Go back{" "}
-                </AppButton>
+                <div style={{marginTop:"10px"}}>
+                  {" "}
+                  <AppButton type="stop" useAs="NavLink" dest="/app/search">
+                    Go back{" "}
+                  </AppButton>
+                </div>
               </Card.Body>
             </div>
           </Card>

@@ -47,14 +47,19 @@ function ContextProvider({ children }) {
           bookId: session_book.bookId,
           title: session_book.title,
           imageUrl: session_book.imageUrl,
-          averageRating: 4,
+          averageRating:!session_book.averageRating ? 0 : Number(session_book.averageRating),
           author_name: session_book.authors[0],
+          userRating:Number(session_book.userRating),
+          reflection: session_book.reflection
         };
         data_bulk.push(booksData);
       }
     }
     console.log(data_bulk);
-    if (data_bulk.length === 0) return;
+    if (data_bulk.length === 0) {
+      setLoading(false);
+      return;
+    }
     // in case of refresh
     let access_token;
     if (!user.details) {
@@ -65,11 +70,10 @@ function ContextProvider({ children }) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${access_token}`,
+          "Authorization": `Bearer ${access_token}`,
         },
         body: JSON.stringify(data_bulk),
       });
-      
     } catch (error) {
       console.log(error);
     } finally {
@@ -128,7 +132,7 @@ function ContextProvider({ children }) {
         setReflection,
         updateBookReflection,
         loading,
-        storeSessionBooksInDB
+        storeSessionBooksInDB,
       }}
     >
       {children}

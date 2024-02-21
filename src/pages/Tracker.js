@@ -8,11 +8,10 @@ import { useAppContext } from "../context/Context";
 import { Spinner } from "react-bootstrap";
 function Tracker() {
   const [show, setShow] = useState(false);
-  const [trackedBook, setTrackedBook] = useState(null);
+  const [trackedBook, setTrackedBook] = useState([]);
   const [bookAtRate, setBookAtRate] = useState(null);
   const [allSaved, setAllSaved] = useState(false)
   const { loading, storeSessionBooksInDB } = useAppContext();
-
   // track size of local storage
   const [size, setSize] = useState(sessionStorage.length);
 
@@ -63,7 +62,7 @@ function Tracker() {
         <AppButton
           type="details"
           action={handleStoringInDnb}
-          saved={allSaved}
+          saved={allSaved || trackedBook.length === 0}
         >
           {loading ? (
             <Spinner animation="border" />

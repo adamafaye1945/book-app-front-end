@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 
 const Context = createContext();
@@ -10,10 +10,7 @@ const Context = createContext();
 // };
 
 function Authentification({ children }) {
-  const [user, setUser] = useState({
-    details: null,
-    authenticated: false,
-  });
+  const [user, setUser] = useState({});
   const [error, setError] = useState(false);
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
@@ -23,7 +20,7 @@ function Authentification({ children }) {
   async function authenticate() {
     //api to authenticate will be here for now, we use obj
     try {
-      setLoading(true)
+      setLoading(true);
       const res = await fetch(
         `https://adamafaye1945.pythonanywhere.com/login?email=${loginEmail}&password=${loginPassword}`
       );
@@ -31,23 +28,29 @@ function Authentification({ children }) {
         throw new Error("no user found");
       }
       const data = await res.json();
-      const userObj = data
-      console.log(userObj)
-      
+      const userObj = data;
+      const { name, access_token } = userObj;
+      const current_user = { name, access_token };
+
       if (userObj) {
         setUser({
-          details: userObj,
+          details: current_user,
           authenticated: true,
         });
-        const {access_token} = userObj
-        sessionStorage.setItem("current_user", JSON.stringify(access_token))
+        sessionStorage.setItem(
+          "current_user",
+          JSON.stringify({
+            details: current_user,
+            authenticated: true,
+          })
+        );
         navigator("app/search");
         return;
       }
     } catch {
       setError(true);
-    }finally{
-      setLoading(false)
+    } finally {
+      setLoading(false);
     }
   }
   async function addUser(email, password, name) {
@@ -71,7 +74,24 @@ function Authentification({ children }) {
       setLoading(false);
     }
   }
-  
+  function logOut() {
+    sessionStorage.setItem("current_user", null);
+    setUser({
+      details: null,
+      authenticated: false,
+    });
+    navigator("/");
+  }
+  useEffect(function () {
+    if (sessionStorage.getItem("current_user")) {
+      setUser(JSON.parse(sessionStorage.getItem("current_user")));
+      return;
+    }
+    sessionStorage.setItem(
+      "current_user",
+      JSON.stringify({ details: null, authenticated: false })
+    );
+  }, []);
 
   return (
     <div>
@@ -87,6 +107,7 @@ function Authentification({ children }) {
           loading,
           addUser,
           navigator,
+          logOut,
         }}
       >
         {children}
