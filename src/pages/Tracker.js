@@ -3,18 +3,16 @@ import AppNavbar from "../components/AppNavbar";
 import BookCard from "../components/BookCard";
 import styles from "./Tracker.module.css";
 import Rating from "../components/Rating";
-import AppButton from "../components/AppButton";
-import { useAppContext } from "../context/Context";
-import { Spinner } from "react-bootstrap";
+import Guide from "../components/Guide";
 function Tracker() {
   const [show, setShow] = useState(false);
   const [trackedBook, setTrackedBook] = useState([]);
   const [bookAtRate, setBookAtRate] = useState(null);
-  const [allSaved, setAllSaved] = useState(false)
-  const { loading, storeSessionBooksInDB } = useAppContext();
+
   // track size of local storage
   const [size, setSize] = useState(sessionStorage.length);
-
+  const guideMessage =
+    "This is your tracker page rate and reflect on your book here. Remember to log out to save your progress. Closing page won't save progress.";
   function handleClose(id) {
     setShow(!show);
     // show is going to be true but have to get clicked item before
@@ -29,10 +27,10 @@ function Tracker() {
     sessionStorage.removeItem(id);
     setSize(sessionStorage.length);
   }
-  function handleStoringInDnb(){
-    storeSessionBooksInDB()
-    setAllSaved(true)
-  }
+  // function handleStoringInDnb() {
+  //   storeSessionBooksInDB();
+  //   setAllSaved(true);
+  // }
   useEffect(
     function () {
       function fetchStoredBook() {
@@ -48,7 +46,7 @@ function Tracker() {
           }
         }
         setTrackedBook(books);
-        setAllSaved(false);
+   
       }
       fetchStoredBook();
     },
@@ -59,19 +57,7 @@ function Tracker() {
     <div className={styles.tracker}>
       <AppNavbar />
       <div className={styles.saveBtn}>
-        <AppButton
-          type="details"
-          action={handleStoringInDnb}
-          saved={allSaved || trackedBook.length === 0}
-        >
-          {loading ? (
-            <Spinner animation="border" />
-          ) : allSaved ? (
-            "All Saved"
-          ) : (
-            "Save your books"
-          )}
-        </AppButton>
+        <Guide message={guideMessage} />
       </div>
 
       {trackedBook && (

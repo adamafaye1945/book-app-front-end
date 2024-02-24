@@ -28,7 +28,7 @@ function AppNavbar() {
           <>
             <Nav variant="tabs" className={styles.tabs}>
               <Nav.Item>
-                <Nav.Link as={NavLink} to="/app/search">
+                <Nav.Link as={NavLink} to="/app/search" >
                   Search
                 </Nav.Link>
               </Nav.Item>

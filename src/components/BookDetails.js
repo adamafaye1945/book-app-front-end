@@ -5,7 +5,6 @@ import { useParams } from "react-router";
 import { useEffect, useState } from "react";
 import { useAppContext } from "../context/Context";
 import AppButton from "./AppButton.js";
-import { useAuthContext } from "../context/authentification";
 
 function BookDetails() {
   const { id } = useParams();

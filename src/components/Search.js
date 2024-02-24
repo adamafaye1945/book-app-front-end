@@ -5,19 +5,25 @@ import AppButton from "./AppButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearchengin } from "@fortawesome/free-brands-svg-icons";
 import { useAuthContext } from "../context/authentification";
+import Guide from "./Guide";
 
 function Search() {
   const { setBooks, setSearch, search } = useAppContext();
   const { user } = useAuthContext();
+  const searchMessage = "10 books are generated below, type author or book or both !"
   function clearSearch() {
     setSearch("");
     setBooks(null);
   }
   return (
     <div>
+      <div className={styles.guide}>
+        <Guide message={searchMessage} type="guide" />
+      </div>
+
       <div className={styles.search}>
         <h1>Hello, {user.details.name}</h1>
-        <h2>Search your books below 📕 </h2>
+        <h2>Book Search Engine 📕 </h2>
       </div>
 
       <Form className={styles.form}>

@@ -1,5 +1,4 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { useAuthContext } from "./authentification";
 
 const Context = createContext();
 
@@ -15,7 +14,7 @@ const booksobj = [
 ];
 
 function ContextProvider({ children }) {
-  const { user } = useAuthContext();
+ 
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
   const GOOGLEAPIURL = "https://www.googleapis.com/books/v1/volumes";
@@ -35,51 +34,7 @@ function ContextProvider({ children }) {
       })
     );
   }
-  async function storeSessionBooksInDB() {
-    setLoading(true);
-    const data_bulk = [];
-    // storing every book in session in data_bulk array and stringify it
-    for (let i = 0; i < sessionStorage.length; i++) {
-      const key = sessionStorage.key(i);
-      if (key !== "React::DevTools::lastSelection" && key !== "current_user") {
-        const session_book = JSON.parse(sessionStorage.getItem(key));
-        const booksData = {
-          bookId: session_book.bookId,
-          title: session_book.title,
-          imageUrl: session_book.imageUrl,
-          averageRating:!session_book.averageRating ? 0 : Number(session_book.averageRating),
-          author_name: session_book.authors[0],
-          userRating:Number(session_book.userRating),
-          reflection: session_book.reflection
-        };
-        data_bulk.push(booksData);
-      }
-    }
-    console.log(data_bulk);
-    if (data_bulk.length === 0) {
-      setLoading(false);
-      return;
-    }
-    // in case of refresh
-    let access_token;
-    if (!user.details) {
-      access_token = JSON.parse(sessionStorage.getItem("current_user"));
-    }
-    try {
-      await fetch("https://adamafaye1945.pythonanywhere.com/add_book", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${access_token}`,
-        },
-        body: JSON.stringify(data_bulk),
-      });
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  }
+  
 
   useEffect(
     function () {
@@ -132,7 +87,7 @@ function ContextProvider({ children }) {
         setReflection,
         updateBookReflection,
         loading,
-        storeSessionBooksInDB,
+
       }}
     >
       {children}
