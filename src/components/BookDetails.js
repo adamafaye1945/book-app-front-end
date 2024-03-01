@@ -1,14 +1,15 @@
-import { Card } from "react-bootstrap";
+import { Card, Spinner } from "react-bootstrap";
 import AppNavbar from "./AppNavbar";
 import styles from "./BookDetails.module.css";
 import { useParams } from "react-router";
 import { useEffect, useState } from "react";
 import { useAppContext } from "../context/Context";
 import AppButton from "./AppButton.js";
+import AppSpinner from "./Spinner";
 
 function BookDetails() {
   const { id } = useParams();
-  const { GOOGLEAPIURL: url } = useAppContext();
+  const { GOOGLEAPIURL: url} = useAppContext();
   const [displayedBook, setDisplayedBook] = useState();
   async function storeBookInSessionStorage() {
     if (!displayedBook) return;
@@ -37,6 +38,7 @@ function BookDetails() {
   useEffect(
     function () {
       async function fetchBook() {
+  
         try {
           let currentBook = {};
           const res = await fetch(`${url}/${id}`);
@@ -82,7 +84,10 @@ function BookDetails() {
         setDisplayedBook(storedBook);
         return;
       }
+
+
       fetchBook();
+      
     },
     [id, url]
   );
@@ -91,7 +96,7 @@ function BookDetails() {
     <div className={styles.bookDetails}>
       <AppNavbar />
       {!displayedBook ? (
-        <h1>Nothing here</h1>
+        <AppSpinner />
       ) : (
         <div className={styles.cardContainer}>
           <Card className={styles.details}>
@@ -117,7 +122,7 @@ function BookDetails() {
                     ? `Track ${displayedBook.title}`
                     : `Already Tracking ${displayedBook.title}`}
                 </AppButton>
-                <div style={{marginTop:"10px"}}>
+                <div style={{ marginTop: "10px" }}>
                   {" "}
                   <AppButton type="stop" useAs="NavLink" dest="/app/search">
                     Go back{" "}

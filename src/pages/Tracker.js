@@ -24,8 +24,11 @@ function Tracker() {
   }
 
   function handleDelete(id) {
-    sessionStorage.removeItem(id);
-    setSize(sessionStorage.length);
+    //deletion is done by giving a object value untrack
+    const item = JSON.parse(sessionStorage.getItem(id))
+    const new_item = {...item, tracked: false}
+    sessionStorage.setItem(id, JSON.stringify(new_item));
+    setSize(size -1 );
   }
   // function handleStoringInDnb() {
   //   storeSessionBooksInDB();
@@ -42,7 +45,8 @@ function Tracker() {
             key !== "current_user"
           ) {
             const book = JSON.parse(sessionStorage.getItem(key));
-            books.push(book);
+            if (book.tracked)
+              books.push(book);
           }
         }
         setTrackedBook(books);

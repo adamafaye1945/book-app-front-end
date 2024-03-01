@@ -107,6 +107,7 @@ function Authentification({ children }) {
           userRating: Number(session_book.userRating),
           reflection: session_book.reflection,
           publisher: session_book.publisher,
+          untracked: !session_book.tracked
         };
         data_bulk.push(booksData);
       }
@@ -161,6 +162,7 @@ function Authentification({ children }) {
           user,
           error,
           loading,
+          setLoading,
           addUser,
           navigator,
           logOut,
