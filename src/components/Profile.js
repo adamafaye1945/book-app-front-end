@@ -10,7 +10,7 @@ function Profile() {
       </Dropdown.Toggle>
 
       <Dropdown.Menu>
-        <Dropdown.Item>About Me</Dropdown.Item>
+
         <Dropdown.Item onClick={logOut}>Logout</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>

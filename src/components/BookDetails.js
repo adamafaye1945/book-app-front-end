@@ -1,4 +1,4 @@
-import { Card, Spinner } from "react-bootstrap";
+import { Card} from "react-bootstrap";
 import AppNavbar from "./AppNavbar";
 import styles from "./BookDetails.module.css";
 import { useParams } from "react-router";
@@ -17,22 +17,6 @@ function BookDetails() {
 
     sessionStorage.setItem(bookStored.bookId, JSON.stringify(bookStored));
     setDisplayedBook(bookStored);
-
-    //   try {
-    //     await fetch("https://adamafaye1945.pythonanywhere.com/add_book", {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //         "Authorization": `Bearer ${user.details.access_token}`
-    //       },
-    //       body: JSON.stringify(booksData),
-    //     }).then((response) => console.log(response.text()));
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    //   console.log(bookStored);
-    //   localStorage.setItem(displayedBook.bookId, JSON.stringify(bookStored));
-    //   setDisplayedBook(bookStored);
   }
 
   useEffect(

@@ -12,7 +12,7 @@ function Tracker() {
   // track size of local storage
   const [size, setSize] = useState(sessionStorage.length);
   const guideMessage =
-    "This is your tracker page rate and reflect on your book here. Remember to log out to save your progress. Closing page won't save progress.";
+    "This is your tracker page. Rate and reflect on your book here. Remember to log out to save your progress. Closing page won't save progress.";
   function handleClose(id) {
     setShow(!show);
     // show is going to be true but have to get clicked item before

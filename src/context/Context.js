@@ -2,16 +2,16 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 const Context = createContext();
 
-const booksobj = [
-  {
-    id: "121212",
-    title: "Flowers",
-    authors: "Vijaya Khisty Bodach",
-    isbn: "9780736896191",
-    imageUrl:
-      "http://books.google.com/books/content?id=_ojXNuzgHRcC&printsec=frontcover&img=1&zoom=5&edge=curl&imgtk=AFLRE72fIinM01rF2BJv0lN0cjfq1TvTUyMDzfH-orkIrBXbaAudWJDDFFs44jBNDirmFacHwD5c9vyaDpknntczNHKvTieDh0B9SFuLUloq3y3BAnDbFZyzd4pfu-QeYcc4H7BXLrpT&source=gbs_api",
-  },
-];
+// const booksobj = [
+//   {
+//     id: "121212",
+//     title: "Flowers",
+//     authors: "Vijaya Khisty Bodach",
+//     isbn: "9780736896191",
+//     imageUrl:
+//       "http://books.google.com/books/content?id=_ojXNuzgHRcC&printsec=frontcover&img=1&zoom=5&edge=curl&imgtk=AFLRE72fIinM01rF2BJv0lN0cjfq1TvTUyMDzfH-orkIrBXbaAudWJDDFFs44jBNDirmFacHwD5c9vyaDpknntczNHKvTieDh0B9SFuLUloq3y3BAnDbFZyzd4pfu-QeYcc4H7BXLrpT&source=gbs_api",
+//   },
+// ];
 
 function ContextProvider({ children }) {
  
@@ -19,7 +19,7 @@ function ContextProvider({ children }) {
   const [hover, setHover] = useState(0);
   const GOOGLEAPIURL = "https://www.googleapis.com/books/v1/volumes";
   const [search, setSearch] = useState("");
-  const [books, setBooks] = useState(booksobj);
+  const [books, setBooks] = useState();
 
   const [reflection, setReflection] = useState("");
   const [loading, setLoading] = useState(false);

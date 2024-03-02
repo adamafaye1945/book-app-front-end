@@ -6,6 +6,7 @@ const Context = createContext();
 function Authentification({ children }) {
   const [user, setUser] = useState({});
   const [error, setError] = useState(false);
+  const [signupError, setSingupError] = useState(false)
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -46,9 +47,9 @@ function Authentification({ children }) {
             headers: { Authorization: `Bearer ${access_token}` },
           }
         );
-        const data = await user_book.json()
-        for(const element of data.book_data){
-          sessionStorage.setItem(element.bookId, JSON.stringify(element))
+        const data = await user_book.json();
+        for (const element of data.book_data) {
+          sessionStorage.setItem(element.bookId, JSON.stringify(element));
         }
         navigator("app/search");
         return;
@@ -67,15 +68,27 @@ function Authentification({ children }) {
       password,
     });
     try {
-      await fetch("https://adamafaye1945.pythonanywhere.com/add_user", {
-        method: "POST",
-        body: user,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-    } catch (error) {
-      console.log(error);
+      const response = await fetch(
+        "https://adamafaye1945.pythonanywhere.com/add_user",
+        {
+          method: "POST",
+          body: user,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (response.status === 409) {
+        setSingupError(true);
+        setLoading(false)
+        return false
+      } else {
+        setSingupError(false);
+        setLoading(false)
+        return true
+      }
+    } catch {
+      console.log("error");
     } finally {
       setLoading(false);
     }
@@ -87,10 +100,11 @@ function Authentification({ children }) {
       if (!JSON.parse(sessionStorage.getItem("current_user")).details) {
         return;
       }
-      const current = JSON.parse(sessionStorage.getItem("current_user"))
-      access_token = current.details.access_token
+      const current = JSON.parse(sessionStorage.getItem("current_user"));
+      access_token = current.details.access_token;
+    } else {
+      access_token = user.details.access_token;
     }
-    else{access_token = user.details.access_token}
     // storing every book in session in data_bulk array and stringify it
     for (let i = 0; i < sessionStorage.length; i++) {
       const key = sessionStorage.key(i);
@@ -107,7 +121,7 @@ function Authentification({ children }) {
           userRating: Number(session_book.userRating),
           reflection: session_book.reflection,
           publisher: session_book.publisher,
-          untracked: !session_book.tracked
+          untracked: !session_book.tracked,
         };
         data_bulk.push(booksData);
       }
@@ -127,8 +141,8 @@ function Authentification({ children }) {
         console.log(error);
       }
     }
-    
-    sessionStorage.clear()
+
+    sessionStorage.clear();
     sessionStorage.setItem(
       "current_user",
       JSON.stringify({ details: null, authenticated: false })
@@ -161,6 +175,7 @@ function Authentification({ children }) {
           authenticate,
           user,
           error,
+          signupError,
           loading,
           setLoading,
           addUser,

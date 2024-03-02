@@ -10,11 +10,12 @@ function Signup() {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
 
-  const { addUser, loading, navigator } = useAuthContext();
+  const { addUser, loading, navigator, signupError } = useAuthContext();
   async function handleAdding() {
     if (!email || !password || !name) return;
-    await addUser(email, password, name);
-    navigator("/login");
+    if (await addUser(email, password, name)){
+      navigator("/login");
+    }
   }
   return (
     <>
@@ -50,6 +51,9 @@ function Signup() {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </Form.Group>
+            {signupError && <p style={{ color: "red", marginTop:"40px" }}>
+              ****User already exist, sign in instead*****
+            </p>}
 
             <div className={styles.buttonGroup}>
               <AppButton type="signup" action={handleAdding}>

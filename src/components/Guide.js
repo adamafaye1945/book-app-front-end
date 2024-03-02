@@ -1,23 +1,25 @@
 import Toast from "react-bootstrap/Toast";
 import { useState } from "react";
+import AppButton from "./AppButton";
 
 function Guide({ message }) {
-  const [guideOpened, setGuideOpened] = useState(true);
+  const [guideOpened, setGuideOpened] = useState(false);
 
   return (
     <div>
-      {guideOpened && (
+      {guideOpened ?  (
         <Toast
-          animation
+          animation = {true}
           bg="warning"
-          onClick={() => setGuideOpened(!guideOpened)}
+          show={guideOpened}
+          onClick={()=>setGuideOpened(!guideOpened)}
         >
           <Toast.Header>
             <strong className="me-auto">Guide</strong>
           </Toast.Header>
           <Toast.Body>{message}</Toast.Body>
         </Toast>
-      )}
+      ) : <AppButton type="details" action={()=>setGuideOpened(!guideOpened)}>Guide</AppButton>}
     </div>
   );
 }
