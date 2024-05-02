@@ -51,9 +51,9 @@ function Rating({ book, show, handleClose }) {
             </div>
           ) : (
             <div style={{ marginTop: "40px", maxWidth: "fit-content " }}>
-              <p>Your reflection: {book.reflection}</p>
+              <p><b>Your reflection</b>: {book.reflection}</p>
               <p>
-                You gave the book a {book.userRating}{" "}
+                <b>You gave the book a {book.userRating}{" "}</b>
                 <FontAwesomeIcon icon={faStar} style={{ color: "orange" }} />
               </p>
             </div>
