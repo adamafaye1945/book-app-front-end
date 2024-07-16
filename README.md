@@ -1,5 +1,4 @@
-Front-end repo for my book tracker app. 
-App not finished yet, Current state:
+try it here:https://adamafaye1945.github.io/book-app-front-end 
 
 
 
