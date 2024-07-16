@@ -7,6 +7,7 @@ import AppLayout from "./pages/AppLayout";
 import BookDetails from "./components/BookDetails";
 import Tracker from "./pages/Tracker";
 import { useAuthContext } from "./context/authentification";
+import FriendList from "./components/FriendListComponent";
 
 function App() {
   const { user } = useAuthContext();
@@ -21,9 +22,10 @@ function App() {
             <Route path="search" element={<AppLayout />} />
             <Route path="search/:id" element={<BookDetails />} />
             <Route path="tracker" element={<Tracker />} />
+            <Route path="friends" element={<FriendList />}></Route>
           </Route>
         )}
-  
+
         <Route
           path="*"
           element="PAGE NOT FOUND OR UNAUTHORIZED ACCESS TO THE PAGE"

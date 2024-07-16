@@ -36,6 +36,10 @@ function AppNavbar() {
                 <Nav.Link as={NavLink} to="/app/tracker">
                   Tracker
                 </Nav.Link>
+              </Nav.Item><Nav.Item>
+                <Nav.Link as={NavLink} to="/app/friends">
+                  Friends
+                </Nav.Link>
               </Nav.Item>
             </Nav>
             <Nav>
