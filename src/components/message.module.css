@@ -1,0 +1,110 @@
+.chatContainer {
+  width: 100%; /* Ensures the container takes up the full width of its parent */
+  max-width: 1200px;
+  height: 90%;
+  min-width: 800px; /* Minimum height set to 800px */
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  margin: 0 auto; /* Centers the chat container horizontally */
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: #ececec;
+  border-bottom: 1px solid #ccc;
+  flex-shrink: 0;
+}
+
+.photo {
+  width: 50px;
+  height: 50px;
+  margin-right: 15px;
+}
+
+.content {
+  flex-grow: 1;
+  padding: 15px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.message {
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #e0e0e0;
+  border-radius: 5px;
+  max-width: 80%;
+  word-wrap: break-word;
+}
+
+.message.sent {
+  align-self: flex-end;
+  background-color: #e6b325;
+}
+
+.message.received {
+  align-self: flex-start;
+}
+
+.input {
+  display: flex;
+  padding: 10px;
+  background-color: #f1f1f1;
+  border-top: 1px solid #ccc;
+  flex-shrink: 0;
+}
+
+.messageInput {
+  flex-grow: 1;
+  margin-right: 10px;
+}
+
+
+
+
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .chatContainer {
+    max-width: 100%; /* Adjusts max-width for smaller screens */
+  }
+
+  .message {
+    max-width: 90%; /* Messages take up more space on smaller screens */
+  }
+
+  .photo {
+    width: 40px; /* Slightly smaller photo for better fit */
+    height: 40px;
+  }
+
+  .header p {
+    font-size: 18px; /* Slightly smaller text in the header */
+  }
+
+  .sendButton {
+    padding: 8px 16px; /* Smaller button padding on smaller screens */
+  }
+}
+
+@media (max-width: 800px) {
+  .chatContainer {
+    min-height: 600px; /* Adjusts minimum height on smaller screens */
+  }
+
+  .header p {
+    font-size: 16px; /* Further reduce font size */
+  }
+
+  .photo {
+    width: 30px;
+    height: 30px;
+  }
+}

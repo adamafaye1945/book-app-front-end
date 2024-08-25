@@ -8,6 +8,7 @@ import BookDetails from "./components/BookDetails";
 import Tracker from "./pages/Tracker";
 import { useAuthContext } from "./context/authentification";
 import FriendList from "./components/FriendListComponent";
+import FriendPage from "./pages/FriendPage";
 
 function App() {
   const { user } = useAuthContext();
@@ -22,7 +23,7 @@ function App() {
             <Route path="search" element={<AppLayout />} />
             <Route path="search/:id" element={<BookDetails />} />
             <Route path="tracker" element={<Tracker />} />
-            <Route path="friends" element={<FriendList />}></Route>
+            <Route path="friends" element={<FriendPage />}></Route>
           </Route>
         )}
 

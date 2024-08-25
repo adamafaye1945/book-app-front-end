@@ -1,4 +1,9 @@
 .list {
-  background-color: #f9efdb ;
+  background-color: #f9efdb;
   min-height: 100vh;
+}
+.friendMessageClass {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 40px;
 }
