@@ -6,11 +6,44 @@ const Context = createContext();
 function Authentification({ children }) {
   const [user, setUser] = useState({});
   const [error, setError] = useState(false);
-  const [signupError, setSingupError] = useState(false)
+  const [signupError, setSingupError] = useState(false);
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [searchedUser, setSearchedUser] = useState([]);
+  const [searchingUser, setSearchingUser] = useState("");
   const navigator = useNavigate();
+
+  useEffect(
+    function () {
+      setLoading(true);
+      const debounce = setTimeout(async () => {
+        try {
+          const user = JSON.parse(sessionStorage.getItem("current_user"));
+          const access_token = user.details.access_token;
+          const res = await fetch(
+            ` https://adamafaye1945.pythonanywhere.com/find?name=${searchingUser}`,
+            {
+              method: "GET",
+              headers: { Authorization: `Bearer ${access_token}` },
+            }
+          );
+          if (!res.ok) {
+            throw new Error("no user found or server error");
+          }
+          const data = await res.json();
+          setSearchedUser(data.users);
+        } catch {
+          setLoading(false);
+          console.log("error finding user");
+        } finally {
+          setLoading(false);
+        }
+      }, 600);
+      return () => clearTimeout(debounce);
+    },
+    [searchingUser]
+  );
 
   async function authenticate() {
     //api to authenticate will be here for now, we use obj
@@ -80,12 +113,12 @@ function Authentification({ children }) {
       );
       if (response.status === 409) {
         setSingupError(true);
-        setLoading(false)
-        return false
+        setLoading(false);
+        return false;
       } else {
         setSingupError(false);
-        setLoading(false)
-        return true
+        setLoading(false);
+        return true;
       }
     } catch {
       console.log("error");
@@ -126,7 +159,7 @@ function Authentification({ children }) {
         data_bulk.push(booksData);
       }
     }
-    console.log(data_bulk);
+
     if (data_bulk.length !== 0) {
       try {
         await fetch("https://adamafaye1945.pythonanywhere.com/add_book", {
@@ -181,6 +214,8 @@ function Authentification({ children }) {
           addUser,
           navigator,
           logOut,
+          setSearchingUser,
+          searchedUser,
         }}
       >
         {children}

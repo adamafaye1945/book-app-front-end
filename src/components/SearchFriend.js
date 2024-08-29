@@ -2,7 +2,9 @@ import { FloatingLabel, Form } from "react-bootstrap";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
+import { useAuthContext } from "../context/authentification";
 function Result({ name, image }) {
+  
   return (
     <div
       style={{
@@ -34,17 +36,9 @@ function Result({ name, image }) {
   );
 }
 function SearchFriend() {
+  const { setSearchingUser, searchedUser } = useAuthContext();
   const [resultsVisible, setResultsVisible] = useState(false);
-  const test = [
-    {
-      name: "adama",
-      photo: "../d.webp",
-    },
-    {
-      name: "coumba",
-      photo: "../d.webp",
-    },
-  ];
+  
   return (
     <div>
       <div
@@ -61,6 +55,7 @@ function SearchFriend() {
             placeholder="Search friend by name"
             onFocus={() => setResultsVisible(true)}
             onBlur={() => setResultsVisible(false)}
+            onChange={(e) => setSearchingUser(e.target.value)}
             style={{
               borderRadius: "24px",
 
@@ -83,9 +78,9 @@ function SearchFriend() {
               zIndex: 10,
             }}
           >
-            {test &&
-              test.map((user) => (
-                <Result name={user.name} image={user.photo} />
+            {searchedUser &&
+              searchedUser.map((user) => (
+                <Result name={user.name} image={"../d.webp"} />
               ))}
           </div>
         )}
