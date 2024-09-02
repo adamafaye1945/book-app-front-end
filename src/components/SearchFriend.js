@@ -3,8 +3,14 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import { useAuthContext } from "../context/authentification";
-function Result({ name, image }) {
-  
+import AppButton from "./AppButton";
+import AppSpinner from "./Spinner";
+function Result({ name, image, id }) {
+  const { createFriendship } = useAuthContext();
+  function addFriend() {
+    console.log(id)
+    createFriendship(id);
+  }
   return (
     <div
       style={{
@@ -26,19 +32,22 @@ function Result({ name, image }) {
         />
         <b>{name}</b>
       </div>
-      <FontAwesomeIcon
-        style={{
-          marginTop: "20px",
-        }}
-        icon={faUserPlus}
-      />
+      <AppButton type="details" action={addFriend}>
+        <FontAwesomeIcon
+          style={{
+            marginTop: "15px",
+          }}
+          icon={faUserPlus}
+        />
+      </AppButton>
     </div>
   );
 }
 function SearchFriend() {
-  const { setSearchingUser, searchedUser } = useAuthContext();
+  const { setSearchingUser, searchedUser, loading } = useAuthContext();
   const [resultsVisible, setResultsVisible] = useState(false);
-  
+  console.log(searchedUser);
+
   return (
     <div>
       <div
@@ -54,7 +63,7 @@ function SearchFriend() {
             type="text"
             placeholder="Search friend by name"
             onFocus={() => setResultsVisible(true)}
-            onBlur={() => setResultsVisible(false)}
+            // onBlur={() => setResultsVisible(false)}
             onChange={(e) => setSearchingUser(e.target.value)}
             style={{
               borderRadius: "24px",
@@ -78,10 +87,15 @@ function SearchFriend() {
               zIndex: 10,
             }}
           >
-            {searchedUser &&
+            {loading ? (
+              <AppSpinner />
+            ) : searchedUser.length > 0 ? (
               searchedUser.map((user) => (
-                <Result name={user.name} image={"../d.webp"} />
-              ))}
+                <Result name={user.name} id={user.userid} image={"../d.webp"} />
+              ))
+            ) : (
+              <b style={{ padding: "40px 30px" }}>no user found</b>
+            )}
           </div>
         )}
       </div>

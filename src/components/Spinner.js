@@ -7,6 +7,7 @@ function AppSpinner() {
         justifyContent: "center",
         display: "flex",
         marginTop: "50px",
+        marginBottom:"50px"
       }}
     >
       <Spinner animation="grow" variant="warning" />

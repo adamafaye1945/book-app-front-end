@@ -14,15 +14,16 @@ function Authentification({ children }) {
   const [searchingUser, setSearchingUser] = useState("");
   const navigator = useNavigate();
 
-  useEffect(
-    function () {
-      setLoading(true);
-      const debounce = setTimeout(async () => {
-        try {
-          const user = JSON.parse(sessionStorage.getItem("current_user"));
-          const access_token = user.details.access_token;
+  useEffect(() => {
+    setLoading(true);
+    setSearchedUser([]);
+    const debounce = setTimeout(async () => {
+      try {
+        const user = JSON.parse(sessionStorage.getItem("current_user"));
+        const access_token = user.details.access_token;
+        if (searchingUser) {
           const res = await fetch(
-            ` https://adamafaye1945.pythonanywhere.com/find?name=${searchingUser}`,
+            `https://adamafaye1945.pythonanywhere.com/find?name=${searchingUser}`,
             {
               method: "GET",
               headers: { Authorization: `Bearer ${access_token}` },
@@ -33,18 +34,38 @@ function Authentification({ children }) {
           }
           const data = await res.json();
           setSearchedUser(data.users);
-        } catch {
-          setLoading(false);
-          console.log("error finding user");
-        } finally {
-          setLoading(false);
         }
-      }, 600);
-      return () => clearTimeout(debounce);
-    },
-    [searchingUser]
-  );
+      } catch {
+        console.log("error finding user");
+      } finally {
+        setLoading(false);
+      }
+    }, 600);
 
+    return () => clearTimeout(debounce);
+  }, [searchingUser]);
+  async function createFriendship(friend_id) {
+    try {
+      if (friend_id) {
+        const access_token = user.details.access_token;
+        const res = await fetch(
+          "https://adamafaye1945.pythonanywhere.com/add_friend",
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${access_token}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              friend_id,
+            }),
+          }
+        );
+      }
+    } catch {
+      console("error adding user");
+    }
+  }
   async function authenticate() {
     //api to authenticate will be here for now, we use obj
     try {
@@ -216,6 +237,7 @@ function Authentification({ children }) {
           logOut,
           setSearchingUser,
           searchedUser,
+          createFriendship,
         }}
       >
         {children}
