@@ -12,7 +12,8 @@ function AppButton({
   tracked,
   reviewed,
   style,
-  saved
+  saved,
+  added
 }) {
   const buttonClasses = `${styles[type]} ${classAdded} `;
 
@@ -24,7 +25,7 @@ function AppButton({
         variant="outline-custom"
         className={buttonClasses}
         onClick={action}
-        disabled={tracked || reviewed|| saved}
+        disabled={tracked || reviewed|| saved || added}
         style={style}
       >
         {children}

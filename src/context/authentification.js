@@ -1,6 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router";
-
+import { json, useNavigate } from "react-router";
 const Context = createContext();
 
 function Authentification({ children }) {
@@ -12,6 +11,7 @@ function Authentification({ children }) {
   const [loading, setLoading] = useState(false);
   const [searchedUser, setSearchedUser] = useState([]);
   const [searchingUser, setSearchingUser] = useState("");
+  const [friends, setFriends] = useState([]);
   const navigator = useNavigate();
 
   useEffect(() => {
@@ -79,8 +79,8 @@ function Authentification({ children }) {
       }
       const data = await res.json();
       const userObj = data;
-      const { name, access_token } = userObj;
-      const current_user = { name, access_token };
+      const { user_friends,id, name, access_token } = userObj;
+      const current_user = { name, access_token, id};
 
       if (userObj) {
         setUser({
@@ -92,6 +92,7 @@ function Authentification({ children }) {
           JSON.stringify({
             details: current_user,
             authenticated: true,
+            user_friends,
           })
         );
         const user_book = await fetch(
@@ -199,7 +200,7 @@ function Authentification({ children }) {
     sessionStorage.clear();
     sessionStorage.setItem(
       "current_user",
-      JSON.stringify({ details: null, authenticated: false })
+      JSON.stringify({ details: null, authenticated: false, user_friends: [] })
     );
     setUser({
       details: null,
@@ -214,7 +215,7 @@ function Authentification({ children }) {
     }
     sessionStorage.setItem(
       "current_user",
-      JSON.stringify({ details: null, authenticated: false })
+      JSON.stringify({ details: null, authenticated: false, user_friends: [] })
     );
   }, []);
 
@@ -238,6 +239,8 @@ function Authentification({ children }) {
           setSearchingUser,
           searchedUser,
           createFriendship,
+          friends,
+          setFriends,
         }}
       >
         {children}

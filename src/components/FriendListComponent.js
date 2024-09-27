@@ -4,22 +4,28 @@ import AppNavbar from "./AppNavbar";
 import Friend from "./Friend";
 import SearchFriend from "./SearchFriend";
 import MessageBox from "./MessageBox";
+import { useAuthContext } from "../context/authentification";
+import { useEffect } from "react";
 
 function FriendList() {
-  const friends = ["adama", "coumba", "fatou", "sew","sww"];
+  useEffect(() => {
+    setFriends(JSON.parse(sessionStorage.getItem("current_user")).user_friends);
+  }, []);
+  const { setFriends, friends } = useAuthContext();
   const recipient = {
     name: "adama",
-    image: "../d.webp"
-  }
+    image: "../d.webp",
+  };
+  
   return (
     <div className={styles.friendMessageClass}>
       <div>
         {friends.map((friend) => (
-          <Friend name={friend} />
+          <Friend name={friend.name} />
         ))}
       </div>
       <div>
-        <MessageBox recipient={recipient}/>
+        <MessageBox recipient={recipient} />
       </div>
     </div>
   );

@@ -1,13 +1,20 @@
 import { Form } from "react-bootstrap";
 import AppButton from "./AppButton";
 import styles from "./message.module.css";
+import { useAppContext } from "../context/Context";
+import { useState } from "react";
+import { useAuthContext } from "../context/authentification";
 
 function MessageBox({ recipient }) {
-    const conversation = {
-        to: {1: "hey", 1:"how are you doing today", 2:"what are you reading"},
-        from: {2:"hey", 3:"i fine"}
+  const { send_message } = useAppContext();
+  const { user } = useAuthContext();
+  const [messages, setMessages] = useState("");
+  async function send() {
+    if (messages != "") {
+      await send_message(messages, user.details.id);
     }
-    return (
+  }
+  return (
     <div className={styles.chatContainer}>
       <div className={styles.header}>
         <div className={styles.photo}>
@@ -36,10 +43,14 @@ function MessageBox({ recipient }) {
       <div className={styles.input}>
         <div className={styles.messageInput}>
           <Form.Group className="mb-3">
-            <Form.Control type="text" placeholder="Enter message" />
+            <Form.Control
+              type="text"
+              placeholder="Enter message"
+              onChange={(e) => setMessages(e.target.value)}
+            />
           </Form.Group>
         </div>
-        <AppButton className={styles.sendButton} type={"submit"}>
+        <AppButton className={styles.sendButton} type={"submit"} action={send}>
           Send
         </AppButton>
       </div>

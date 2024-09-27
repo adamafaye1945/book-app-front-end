@@ -1,4 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { db } from "./firestore";
+import { collection, onSnapshot, query } from "firebase/firestore";
+import { useAuthContext } from "./authentification";
 
 const Context = createContext();
 
@@ -14,15 +17,16 @@ const Context = createContext();
 // ];
 
 function ContextProvider({ children }) {
- 
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
   const GOOGLEAPIURL = "https://www.googleapis.com/books/v1/volumes";
   const [search, setSearch] = useState("");
   const [books, setBooks] = useState();
-
+  const { user } = useAuthContext();
   const [reflection, setReflection] = useState("");
   const [loading, setLoading] = useState(false);
+  const [message, setMessages] = useState("");
+  const [chatId, setChatId] = useState(null);
   function updateBookReflection(book, userReflection, rating) {
     sessionStorage.setItem(
       book.bookId,
@@ -34,7 +38,46 @@ function ContextProvider({ children }) {
       })
     );
   }
-  
+  async function send_message(user_message, receiver_id) {
+    const params = {
+      chat_id: "12",
+      sender_id: user.details.id,
+      receiver_id,
+      message: user_message,
+    };
+    try {
+      const response = await fetch(
+        "https://adamafaye1945.pythonanywhere.com/send_message",
+        {
+          headers: { "Content-Type": "application/json" },
+          method: "POST",
+          body: JSON.stringify(params),
+        }
+      );
+      const data = await response.json();
+      console.log(data);
+    } catch {
+      console.log("error sending message");
+    }
+  }
+  useEffect(() => {
+    // Define the Firestore query (listening to the "messages" collection)
+    const chat_id = "12";
+    console.log("firestore: ", db);
+    const q = query(collection(db, `chats/${chat_id}/messages`));
+    // Subscribe to Firestore changes using onSnapshot
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const messagesArray = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      console.log(messagesArray);
+      setMessages(messagesArray); // Update state when data changes
+    });
+
+    // Cleanup subscription on unmount
+    return () => unsubscribe();
+  }, []);
 
   useEffect(
     function () {
@@ -87,7 +130,10 @@ function ContextProvider({ children }) {
         setReflection,
         updateBookReflection,
         loading,
-
+        message,
+        send_message,
+        chatId, 
+        setChatId
       }}
     >
       {children}

@@ -5,10 +5,23 @@ import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import { useAuthContext } from "../context/authentification";
 import AppButton from "./AppButton";
 import AppSpinner from "./Spinner";
+import { json } from "react-router";
 function Result({ name, image, id }) {
-  const { createFriendship } = useAuthContext();
+  const { createFriendship, friends, setFriends } = useAuthContext();
+
   function addFriend() {
-    console.log(id)
+    setFriends([...friends, { name, image, userid: id }]);
+    // usinf sess stoage in caseof reload
+    sessionStorage.setItem(
+      "current_user",
+      JSON.stringify({
+        ...JSON.parse(sessionStorage.getItem("current_user")),
+        user_friends: [
+          ...JSON.parse(sessionStorage.getItem("current_user")).user_friends,
+          { name, id },
+        ],
+      })
+    );
     createFriendship(id);
   }
   return (
@@ -32,7 +45,12 @@ function Result({ name, image, id }) {
         />
         <b>{name}</b>
       </div>
-      <AppButton type="details" action={addFriend}>
+
+      <AppButton
+        type="details"
+        added={friends.some((item) => item.userid === id)}
+        action={addFriend}
+      >
         <FontAwesomeIcon
           style={{
             marginTop: "15px",
@@ -44,9 +62,8 @@ function Result({ name, image, id }) {
   );
 }
 function SearchFriend() {
-  const { setSearchingUser, searchedUser, loading } = useAuthContext();
+  const { setSearchingUser, searchedUser, loading, friends } = useAuthContext();
   const [resultsVisible, setResultsVisible] = useState(false);
-  console.log(searchedUser);
 
   return (
     <div>
@@ -62,9 +79,9 @@ function SearchFriend() {
           <Form.Control
             type="text"
             placeholder="Search friend by name"
-            onFocus={() => setResultsVisible(true)}
-            // onBlur={() => setResultsVisible(false)}
             onChange={(e) => setSearchingUser(e.target.value)}
+            onBlur={() => setResultsVisible(false)}
+            onFocus={() => setResultsVisible(true)}
             style={{
               borderRadius: "24px",
 
@@ -73,6 +90,7 @@ function SearchFriend() {
             }}
           />
         </FloatingLabel>
+
         {resultsVisible && (
           <div
             style={{
