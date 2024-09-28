@@ -26,7 +26,7 @@ function ContextProvider({ children }) {
   const [reflection, setReflection] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessages] = useState("");
-  const [chatId, setChatId] = useState(null);
+  const [currentRecipientId, setCurrentRecipientId] = useState(null);
   function updateBookReflection(book, userReflection, rating) {
     sessionStorage.setItem(
       book.bookId,
@@ -38,9 +38,20 @@ function ContextProvider({ children }) {
       })
     );
   }
+  async function generateChatId(senderId, recipientId) {
+    const ids = [senderId, recipientId].sort();  
+    const concatenatedIds = new TextEncoder().encode(ids.join('-'));
+    const hashBuffer = await crypto.subtle.digest('SHA-256', concatenatedIds);  
+    const hashArray = Array.from(new Uint8Array(hashBuffer));  
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join(''); 
+    return hashHex;
+  }
+  
   async function send_message(user_message, receiver_id) {
+    const id = await generateChatId(user.details.id, receiver_id)
+    console.log(id)
     const params = {
-      chat_id: "12",
+      chat_id: id,
       sender_id: user.details.id,
       receiver_id,
       message: user_message,
@@ -132,8 +143,8 @@ function ContextProvider({ children }) {
         loading,
         message,
         send_message,
-        chatId, 
-        setChatId
+        currentRecipientId, 
+        setCurrentRecipientId
       }}
     >
       {children}

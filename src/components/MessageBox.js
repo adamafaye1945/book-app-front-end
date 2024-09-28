@@ -6,12 +6,13 @@ import { useState } from "react";
 import { useAuthContext } from "../context/authentification";
 
 function MessageBox({ recipient }) {
+  
   const { send_message } = useAppContext();
-  const { user } = useAuthContext();
+ 
   const [messages, setMessages] = useState("");
   async function send() {
     if (messages != "") {
-      await send_message(messages, user.details.id);
+      await send_message(messages, recipient.userid);
     }
   }
   return (
@@ -25,7 +26,7 @@ function MessageBox({ recipient }) {
               objectFit: "cover",
               borderRadius: "50%",
             }}
-            src={recipient.image}
+            src={"../image.webp"}
             alt={`${recipient.name}'s avatar`}
           />
         </div>

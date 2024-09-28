@@ -12,21 +12,20 @@ function FriendList() {
     setFriends(JSON.parse(sessionStorage.getItem("current_user")).user_friends);
   }, []);
   const { setFriends, friends } = useAuthContext();
-  const recipient = {
-    name: "adama",
-    image: "../d.webp",
-  };
-  
+  const { currentRecipientId } = useAppContext();
+
+  const recipient = friends.filter(
+    (friend) => friend.userid == currentRecipientId
+  );
+
   return (
     <div className={styles.friendMessageClass}>
       <div>
         {friends.map((friend) => (
-          <Friend name={friend.name} />
+          <Friend name={friend.name} id={friend.userid} />
         ))}
       </div>
-      <div>
-        <MessageBox recipient={recipient} />
-      </div>
+      <div>{recipient.length!==0 && <MessageBox recipient={recipient[0]} />}</div>
     </div>
   );
 }

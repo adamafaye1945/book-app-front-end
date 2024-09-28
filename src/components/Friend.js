@@ -1,7 +1,13 @@
+import { useAppContext } from "../context/Context";
 import AppButton from "./AppButton";
 import styles from "./Friend.module.css";
 
-function Friend({ name }) {
+function Friend({ name, id }) {
+  const { setCurrentRecipientId } = useAppContext();
+
+  function start_convo() {
+    setCurrentRecipientId(id);
+  }
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
@@ -20,7 +26,7 @@ function Friend({ name }) {
         <div className={styles.content}>
           <div className={styles.name}>{name}</div>
           <div className={styles.buttons}>
-            <AppButton type="details">Message</AppButton>
+            <AppButton type="details" action={start_convo}>Message</AppButton>
             <AppButton type="stop">Unfriend</AppButton>
           </div>
         </div>
