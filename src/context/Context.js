@@ -22,7 +22,7 @@ function ContextProvider({ children }) {
   const GOOGLEAPIURL = "https://www.googleapis.com/books/v1/volumes";
   const [search, setSearch] = useState("");
   const [books, setBooks] = useState();
-  const { user } = useAuthContext();
+  const { user, setUser } = useAuthContext();
   const [reflection, setReflection] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessages] = useState("");
@@ -39,17 +39,18 @@ function ContextProvider({ children }) {
     );
   }
   async function generateChatId(senderId, recipientId) {
-    const ids = [senderId, recipientId].sort();  
-    const concatenatedIds = new TextEncoder().encode(ids.join('-'));
-    const hashBuffer = await crypto.subtle.digest('SHA-256', concatenatedIds);  
-    const hashArray = Array.from(new Uint8Array(hashBuffer));  
-    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join(''); 
+    const ids = [senderId, recipientId].sort();
+    const concatenatedIds = new TextEncoder().encode(ids.join("-"));
+    const hashBuffer = await crypto.subtle.digest("SHA-256", concatenatedIds);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("");
     return hashHex;
   }
-  
+
   async function send_message(user_message, receiver_id) {
-    const id = await generateChatId(user.details.id, receiver_id)
-    console.log(id)
+    const id = await generateChatId(user.details.id, receiver_id);
     const params = {
       chat_id: id,
       sender_id: user.details.id,
@@ -66,29 +67,42 @@ function ContextProvider({ children }) {
         }
       );
       const data = await response.json();
-      console.log(data);
     } catch {
       console.log("error sending message");
     }
   }
   useEffect(() => {
-    // Define the Firestore query (listening to the "messages" collection)
-    const chat_id = "12";
-    console.log("firestore: ", db);
-    const q = query(collection(db, `chats/${chat_id}/messages`));
-    // Subscribe to Firestore changes using onSnapshot
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const messagesArray = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      console.log(messagesArray);
-      setMessages(messagesArray); // Update state when data changes
-    });
+    const fetchChatIdAndSubscribe = async () => {
+      if (!user?.details?.id || !currentRecipientId) {
+        console.log("Missing user ID or recipient ID");
+        return;
+      }
 
-    // Cleanup subscription on unmount
-    return () => unsubscribe();
-  }, []);
+      try {
+        const chat_id = await generateChatId(
+          user.details.id,
+          currentRecipientId
+        );
+
+        const q = query(collection(db, `chats/${chat_id}/messages`));
+
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+          const messagesArray = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+          console.log("Messages received:", messagesArray);
+          setMessages(messagesArray);
+        });
+
+        return () => unsubscribe();
+      } catch (error) {
+        console.error("Error generating chat ID or fetching messages:", error);
+      }
+    };
+
+    fetchChatIdAndSubscribe();
+  }, [user, currentRecipientId]);
 
   useEffect(
     function () {
@@ -143,8 +157,8 @@ function ContextProvider({ children }) {
         loading,
         message,
         send_message,
-        currentRecipientId, 
-        setCurrentRecipientId
+        currentRecipientId,
+        setCurrentRecipientId,
       }}
     >
       {children}

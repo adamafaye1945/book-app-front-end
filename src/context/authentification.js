@@ -229,6 +229,7 @@ function Authentification({ children }) {
           loginPassword,
           authenticate,
           user,
+          setUser,
           error,
           signupError,
           loading,
