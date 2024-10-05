@@ -25,7 +25,7 @@ function ContextProvider({ children }) {
   const { user, setUser } = useAuthContext();
   const [reflection, setReflection] = useState("");
   const [loading, setLoading] = useState(false);
-  const [message, setMessages] = useState("");
+  const [message, setMessages] = useState([]);
   const [currentRecipientId, setCurrentRecipientId] = useState(null);
   function updateBookReflection(book, userReflection, rating) {
     sessionStorage.setItem(

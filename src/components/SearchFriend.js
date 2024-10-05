@@ -1,17 +1,16 @@
 import { FloatingLabel, Form } from "react-bootstrap";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import { useAuthContext } from "../context/authentification";
 import AppButton from "./AppButton";
 import AppSpinner from "./Spinner";
-import { json } from "react-router";
+
 function Result({ name, image, id }) {
   const { createFriendship, friends, setFriends } = useAuthContext();
 
   function addFriend() {
     setFriends([...friends, { name, image, userid: id }]);
-    // usinf sess stoage in caseof reload
     sessionStorage.setItem(
       "current_user",
       JSON.stringify({
@@ -24,6 +23,7 @@ function Result({ name, image, id }) {
     );
     createFriendship(id);
   }
+  
   return (
     <div
       style={{
@@ -61,9 +61,31 @@ function Result({ name, image, id }) {
     </div>
   );
 }
+
 function SearchFriend() {
   const { setSearchingUser, searchedUser, loading, friends } = useAuthContext();
   const [resultsVisible, setResultsVisible] = useState(false);
+  const inputRef = useRef(null);  // Reference for the input field
+  const resultsRef = useRef(null); // Reference for the results container
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (
+        resultsRef.current &&
+        !resultsRef.current.contains(event.target) &&
+        !inputRef.current.contains(event.target)
+      ) {
+        setResultsVisible(false); // Hide results if clicked outside
+      }
+    }
+    // Add event listener to handle click outside
+    document.addEventListener("mousedown", handleClickOutside);
+    
+    // Cleanup event listener
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <div>
@@ -77,14 +99,13 @@ function SearchFriend() {
       >
         <FloatingLabel controlId="floatingInput" label="Search friend by name">
           <Form.Control
+            ref={inputRef} // Attach reference to input
             type="text"
             placeholder="Search friend by name"
             onChange={(e) => setSearchingUser(e.target.value)}
-            onBlur={() => setResultsVisible(false)}
-            onFocus={() => setResultsVisible(true)}
+            onFocus={() => setResultsVisible(true)} // Show results when focused
             style={{
               borderRadius: "24px",
-
               padding: "40px 20px",
               boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
             }}
@@ -93,6 +114,7 @@ function SearchFriend() {
 
         {resultsVisible && (
           <div
+            ref={resultsRef}  // Attach reference to results container
             style={{
               backgroundColor: "white",
               position: "absolute",
@@ -109,10 +131,10 @@ function SearchFriend() {
               <AppSpinner />
             ) : searchedUser.length > 0 ? (
               searchedUser.map((user) => (
-                <Result name={user.name} id={user.userid} image={"../d.webp"} />
+                <Result key={user.userid} name={user.name} id={user.userid} image={"../d.webp"} />
               ))
             ) : (
-              <b style={{ padding: "40px 30px" }}>no user found</b>
+              <b style={{ padding: "40px 30px" }}>No user found</b>
             )}
           </div>
         )}
@@ -120,4 +142,5 @@ function SearchFriend() {
     </div>
   );
 }
+
 export default SearchFriend;

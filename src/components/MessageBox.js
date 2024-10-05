@@ -4,11 +4,20 @@ import styles from "./message.module.css";
 import { useAppContext } from "../context/Context";
 import { useState } from "react";
 import { useAuthContext } from "../context/authentification";
-
+function ReceivedText({ message }) {
+  return (
+    <div className={`${styles.message} ${styles.received}`}>{message}</div>
+  );
+}
+function SentText({ message }) {
+  return <div className={`${styles.message} ${styles.sent}`}>{message}</div>;
+}
 function MessageBox({ recipient }) {
-  
-  const { send_message } = useAppContext();
- 
+  const { user } = useAuthContext();
+  const { send_message, message } = useAppContext();
+  const sortedMessage = message.sort(
+    (mess1, mess2) => mess1.timestamp.seconds - mess2.timestamp.seconds
+  );
   const [messages, setMessages] = useState("");
   async function send() {
     if (messages != "") {
@@ -35,11 +44,13 @@ function MessageBox({ recipient }) {
         </p>
       </div>
       <div className={styles.content}>
-        {}
-        <div className={`${styles.message} ${styles.received}`}>
-          Message received
-        </div>
-        <div className={`${styles.message} ${styles.sent}`}>Message sent</div>
+        {sortedMessage.map((mess) =>
+          mess.sender_id === user.details.id ? (
+            <SentText message={mess.message} />
+          ) : (
+            <ReceivedText message={mess.message} />
+          )
+        )}
       </div>
       <div className={styles.input}>
         <div className={styles.messageInput}>
