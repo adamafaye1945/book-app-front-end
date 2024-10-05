@@ -25,7 +25,9 @@ function FriendList() {
           <Friend name={friend.name} id={friend.userid} />
         ))}
       </div>
-      <div>{recipient.length!==0 && <MessageBox recipient={recipient[0]} />}</div>
+      <div style={{height:"80vh"}}>
+        {recipient.length !== 0 && <MessageBox recipient={recipient[0]} />}
+      </div>
     </div>
   );
 }
