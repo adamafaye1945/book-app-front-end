@@ -2,7 +2,7 @@ import { Form } from "react-bootstrap";
 import AppButton from "./AppButton";
 import styles from "./message.module.css";
 import { useAppContext } from "../context/Context";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useAuthContext } from "../context/authentification";
 function ReceivedText({ message }) {
   return (
@@ -15,9 +15,12 @@ function SentText({ message }) {
 function MessageBox({ recipient }) {
   const { user } = useAuthContext();
   const { send_message, message } = useAppContext();
-  const sortedMessage = message.sort(
-    (mess1, mess2) => mess1.timestamp.seconds - mess2.timestamp.seconds
-  );
+  const sortedMessage = useMemo(() => {
+    return message.sort(
+      (mess1, mess2) => mess1.timestamp.seconds - mess2.timestamp.seconds
+    );
+  }, [message]);
+  console.log(sortedMessage);
   const [messages, setMessages] = useState("");
   async function send() {
     if (messages != "") {
@@ -56,6 +59,7 @@ function MessageBox({ recipient }) {
         <div className={styles.messageInput}>
           <Form.Group className="mb-3">
             <Form.Control
+              as="textarea"
               type="text"
               placeholder="Enter message"
               onChange={(e) => setMessages(e.target.value)}
