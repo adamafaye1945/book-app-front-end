@@ -2,11 +2,12 @@ import { useAppContext } from "../context/Context";
 import AppButton from "./AppButton";
 import styles from "./Friend.module.css";
 
-function Friend({ name, id }) {
+function Friend({ displayMB,setdisplayMB,name, id }) {
   const { setCurrentRecipientId } = useAppContext();
 
   function start_convo() {
     setCurrentRecipientId(id);
+    setdisplayMB(!displayMB);
   }
   return (
     <div className={styles.wrapper}>

@@ -25,6 +25,7 @@ function MessageBox({ recipient }) {
   async function send() {
     if (messages != "") {
       await send_message(messages, recipient.userid);
+      setMessages("");
     }
   }
   return (
@@ -59,9 +60,10 @@ function MessageBox({ recipient }) {
         <div className={styles.messageInput}>
           <Form.Group className="mb-3">
             <Form.Control
-              as="textarea"
+              
               type="text"
               placeholder="Enter message"
+              value={messages}
               onChange={(e) => setMessages(e.target.value)}
             />
           </Form.Group>
