@@ -23,7 +23,7 @@ function Result({ name, image, id }) {
     );
     createFriendship(id);
   }
-  
+
   return (
     <div
       style={{
@@ -65,7 +65,7 @@ function Result({ name, image, id }) {
 function SearchFriend() {
   const { setSearchingUser, searchedUser, loading, friends } = useAuthContext();
   const [resultsVisible, setResultsVisible] = useState(false);
-  const inputRef = useRef(null);  // Reference for the input field
+  const inputRef = useRef(null); // Reference for the input field
   const resultsRef = useRef(null); // Reference for the results container
 
   useEffect(() => {
@@ -80,7 +80,7 @@ function SearchFriend() {
     }
     // Add event listener to handle click outside
     document.addEventListener("mousedown", handleClickOutside);
-    
+
     // Cleanup event listener
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -90,12 +90,14 @@ function SearchFriend() {
   return (
     <div>
       <div
-        style={{
-          position: "relative",
-          width: "100%",
-          maxWidth: "600px",
-          margin: "40px auto",
-        }}
+        style={
+          {
+            position: "relative",
+            width: "100%",
+            maxWidth: "800px",
+            margin: "200px auto",
+          }
+        }
       >
         <FloatingLabel controlId="floatingInput" label="Search friend by name">
           <Form.Control
@@ -114,7 +116,7 @@ function SearchFriend() {
 
         {resultsVisible && (
           <div
-            ref={resultsRef}  // Attach reference to results container
+            ref={resultsRef} // Attach reference to results container
             style={{
               backgroundColor: "white",
               position: "absolute",
@@ -131,7 +133,12 @@ function SearchFriend() {
               <AppSpinner />
             ) : searchedUser.length > 0 ? (
               searchedUser.map((user) => (
-                <Result key={user.userid} name={user.name} id={user.userid} image={"../d.webp"} />
+                <Result
+                  key={user.userid}
+                  name={user.name}
+                  id={user.userid}
+                  image={"../d.webp"}
+                />
               ))
             ) : (
               <b style={{ padding: "40px 30px" }}>No user found</b>

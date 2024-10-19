@@ -2,9 +2,15 @@
   background-color: #f9efdb;
   min-height: 100vh;
 }
-.friendMessageClass {
+.friendlist {
   display: flex;
-  justify-content: space-around;
-  margin-top: 40px;
-  align-items: flex-start;
+  flex-wrap: wrap; /* Allows items to wrap to the next row */
+  gap: 1px; /* Adds space between the items */
+  justify-content: flex-start; /* Align items to the start of each row */
+  padding: 10px;
+}
+.searchbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

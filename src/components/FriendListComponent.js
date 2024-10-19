@@ -21,12 +21,29 @@ function FriendList() {
   );
 
   return (
-    <div className={styles.friendMessageClass}>
-      {display == "Friends" &&
-        friends.map((friend) => (
-          <Friend name={friend.name} id={friend.userid} />
-        ))}
-      {display == "Search Friend" && <SearchFriend />}
+    <div>
+      {display == "Friends" && (
+        <div>
+          <div className={styles.friendlist}>
+            {friends.map((friend) => (
+              <Friend name={friend.name} id={friend.userid} />
+            ))}
+          </div>
+          <div style={{ height: "80vh" }}>
+            {recipient.length !== 0 ? (
+              <MessageBox recipient={recipient[0]} />
+            ) : (
+              ""
+            )}
+          </div>
+        </div>
+      )}
+
+      {display == "Search Friend" && (
+        <div>
+          <SearchFriend />
+        </div>
+      )}
 
       {/* <div>
         <SearchFriend />
