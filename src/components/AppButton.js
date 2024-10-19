@@ -3,6 +3,7 @@ import styles from "./AppButton.module.css";
 import { NavLink } from "react-router-dom";
 
 function AppButton({
+  value,
   children,
   type,
   classAdded,
@@ -13,19 +14,20 @@ function AppButton({
   reviewed,
   style,
   saved,
-  added
+  added,
 }) {
   const buttonClasses = `${styles[type]} ${classAdded} `;
 
   return (
     <div>
       <Button
+        value={value}
         as={useAs === "NavLink" ? NavLink : ""}
         to={dest}
         variant="outline-custom"
         className={buttonClasses}
         onClick={action}
-        disabled={tracked || reviewed|| saved || added}
+        disabled={tracked || reviewed || saved || added}
         style={style}
       >
         {children}

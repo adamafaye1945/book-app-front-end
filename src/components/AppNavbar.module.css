@@ -1,5 +1,6 @@
 .bgColor {
-  background-color: #e6b325;
+  background: linear-gradient(to bottom, #e6b325, #f9efdb);
+  height: 200px;
 }
 .tabs {
   gap: 40px;
