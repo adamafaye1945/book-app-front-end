@@ -14,7 +14,8 @@ function FriendList() {
   }, []);
 
   const { setFriends, friends } = useAuthContext();
-  const { currentRecipientId, display, setDisplay } = useAppContext();
+  const { currentRecipientId, display, friend_messageDisplay } =
+    useAppContext();
 
   const recipient = friends.filter(
     (friend) => friend.userid == currentRecipientId
@@ -24,18 +25,21 @@ function FriendList() {
     <div>
       {display == "Friends" && (
         <div>
-          <div className={styles.friendlist}>
-            {friends.map((friend) => (
-              <Friend name={friend.name} id={friend.userid} />
-            ))}
-          </div>
-          <div style={{ height: "80vh" }}>
-            {recipient.length !== 0 ? (
-              <MessageBox recipient={recipient[0]} />
-            ) : (
-              ""
-            )}
-          </div>
+          {friend_messageDisplay ? (
+            <div className={styles.friendlist}>
+              {friends.map((friend) => (
+                <Friend name={friend.name} id={friend.userid} />
+              ))}
+            </div>
+          ) : (
+            <div style={{ height: "80vh" }}>
+              {recipient.length !== 0 ? (
+                <MessageBox recipient={recipient[0]} />
+              ) : (
+                ""
+              )}
+            </div>
+          )}
         </div>
       )}
 

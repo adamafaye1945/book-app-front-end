@@ -3,10 +3,11 @@ import AppButton from "./AppButton";
 import styles from "./Friend.module.css";
 
 function Friend({ name, id }) {
-  const { setCurrentRecipientId } = useAppContext();
+  const { setCurrentRecipientId, setfriend_messageDisplay } = useAppContext();
 
   function start_convo() {
     setCurrentRecipientId(id);
+    setfriend_messageDisplay(false);
   }
   return (
     <div className={styles.wrapper}>

@@ -28,6 +28,7 @@ function ContextProvider({ children }) {
   const [message, setMessages] = useState([]);
   const [currentRecipientId, setCurrentRecipientId] = useState(null);
   const [display, setDisplay] = useState("");
+  const [friend_messageDisplay, setfriend_messageDisplay] = useState(true);
   function updateBookReflection(book, userReflection, rating) {
     sessionStorage.setItem(
       book.bookId,
@@ -162,6 +163,8 @@ function ContextProvider({ children }) {
         setCurrentRecipientId,
         display,
         setDisplay,
+        friend_messageDisplay,
+        setfriend_messageDisplay,
       }}
     >
       {children}
