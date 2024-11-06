@@ -26,7 +26,7 @@ function ProfileComponent() {
         <AppButton value={"Favorite books"} type="details">
           Favorite books
         </AppButton>
-        <AppButton value={"Request"} type="details">
+        <AppButton value={"Request"} action={navbardisplayer} type="details">
           Request
         </AppButton>
         <AppButton

@@ -9,30 +9,34 @@ import Tracker from "./pages/Tracker";
 import { useAuthContext } from "./context/authentification";
 import FriendList from "./components/FriendListComponent";
 import FriendPage from "./pages/FriendPage";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 function App() {
   const { user } = useAuthContext();
+  const queryClient = new QueryClient();
   return (
-    <ContextProvider>
-      <Routes>
-        <Route index element={<Homepage />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        {user.authenticated && (
-          <Route path="/app">
-            <Route path="search" element={<AppLayout />} />
-            <Route path="search/:id" element={<BookDetails />} />
-            <Route path="tracker" element={<Tracker />} />
-            <Route path="friends" element={<FriendPage />}></Route>
-          </Route>
-        )}
+    <QueryClientProvider client={queryClient}>
+      <ContextProvider>
+        <Routes>
+          <Route index element={<Homepage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          {user.authenticated && (
+            <Route path="/app">
+              <Route path="search" element={<AppLayout />} />
+              <Route path="search/:id" element={<BookDetails />} />
+              <Route path="tracker" element={<Tracker />} />
+              <Route path="friends" element={<FriendPage />}></Route>
+            </Route>
+          )}
 
-        <Route
-          path="*"
-          element="PAGE NOT FOUND OR UNAUTHORIZED ACCESS TO THE PAGE"
-        />
-      </Routes>
-    </ContextProvider>
+          <Route
+            path="*"
+            element="PAGE NOT FOUND OR UNAUTHORIZED ACCESS TO THE PAGE"
+          />
+        </Routes>
+      </ContextProvider>
+    </QueryClientProvider>
   );
 }
 

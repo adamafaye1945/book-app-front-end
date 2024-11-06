@@ -12,38 +12,29 @@ function Authentification({ children }) {
   const [searchedUser, setSearchedUser] = useState([]);
   const [searchingUser, setSearchingUser] = useState("");
   const [friends, setFriends] = useState([]);
+  const [request, setRequest] = useState([]);
   const navigator = useNavigate();
 
-  useEffect(() => {
-    setLoading(true);
-    setSearchedUser([]);
-    const debounce = setTimeout(async () => {
-      try {
-        const user = JSON.parse(sessionStorage.getItem("current_user"));
+  async function sendRequest(friend_id) {
+    try {
+      if (friend_id) {
         const access_token = user.details.access_token;
-        if (searchingUser) {
-          const res = await fetch(
-            `https://adamafaye1945.pythonanywhere.com/find?name=${searchingUser}`,
-            {
-              method: "GET",
-              headers: { Authorization: `Bearer ${access_token}` },
-            }
-          );
-          if (!res.ok) {
-            throw new Error("no user found or server error");
+        const res = await fetch(
+          `https://adamafaye1945.pythonanywhere.com/sendFriendRequest?receiverId=${friend_id}`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${access_token}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({})
           }
-          const data = await res.json();
-          setSearchedUser(data.users);
-        }
-      } catch {
-        console.log("error finding user");
-      } finally {
-        setLoading(false);
+        );
       }
-    }, 600);
-
-    return () => clearTimeout(debounce);
-  }, [searchingUser]);
+    } catch {
+      console.log("error sending request");
+    }
+  }
   async function createFriendship(friend_id) {
     try {
       if (friend_id) {
@@ -79,8 +70,8 @@ function Authentification({ children }) {
       }
       const data = await res.json();
       const userObj = data;
-      const { user_friends,id, name, access_token } = userObj;
-      const current_user = { name, access_token, id};
+      const { user_friends, id, name, access_token } = userObj;
+      const current_user = { name, access_token, id };
 
       if (userObj) {
         setUser({
@@ -93,6 +84,7 @@ function Authentification({ children }) {
             details: current_user,
             authenticated: true,
             user_friends,
+            request : []
           })
         );
         const user_book = await fetch(
@@ -208,6 +200,36 @@ function Authentification({ children }) {
     });
     navigator("/");
   }
+  useEffect(() => {
+    setLoading(true);
+    setSearchedUser([]);
+    const debounce = setTimeout(async () => {
+      try {
+        const user = JSON.parse(sessionStorage.getItem("current_user"));
+        const access_token = user.details.access_token;
+        if (searchingUser) {
+          const res = await fetch(
+            `https://adamafaye1945.pythonanywhere.com/find?name=${searchingUser}`,
+            {
+              method: "GET",
+              headers: { Authorization: `Bearer ${access_token}` },
+            }
+          );
+          if (!res.ok) {
+            throw new Error("no user found or server error");
+          }
+          const data = await res.json();
+          setSearchedUser(data.users);
+        }
+      } catch {
+        console.log("error finding user");
+      } finally {
+        setLoading(false);
+      }
+    }, 600);
+
+    return () => clearTimeout(debounce);
+  }, [searchingUser]);
   useEffect(function () {
     if (sessionStorage.getItem("current_user")) {
       setUser(JSON.parse(sessionStorage.getItem("current_user")));
@@ -215,7 +237,7 @@ function Authentification({ children }) {
     }
     sessionStorage.setItem(
       "current_user",
-      JSON.stringify({ details: null, authenticated: false, user_friends: [] })
+      JSON.stringify({ details: null, authenticated: false, user_friends: [], request : [] })
     );
   }, []);
 
@@ -242,6 +264,7 @@ function Authentification({ children }) {
           createFriendship,
           friends,
           setFriends,
+          sendRequest
         }}
       >
         {children}

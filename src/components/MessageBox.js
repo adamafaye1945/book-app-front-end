@@ -23,7 +23,7 @@ function MessageBox({ recipient }) {
       (mess1, mess2) => mess1.timestamp.seconds - mess2.timestamp.seconds
     );
   }, [message]);
-  console.log(sortedMessage);
+  
   const [messages, setMessages] = useState("");
   async function send() {
     if (messages != "") {

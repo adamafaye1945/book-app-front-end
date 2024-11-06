@@ -85,7 +85,6 @@ function ContextProvider({ children }) {
           user.details.id,
           currentRecipientId
         );
-
         const q = query(collection(db, `chats/${chat_id}/messages`));
 
         const unsubscribe = onSnapshot(q, (snapshot) => {

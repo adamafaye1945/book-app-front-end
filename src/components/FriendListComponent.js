@@ -7,16 +7,15 @@ import MessageBox from "./MessageBox";
 import { useAuthContext } from "../context/authentification";
 import { useEffect, useState } from "react";
 import ProfileComponent from "./ProfileComponent";
+import Request from "./Request";
 
 function FriendList() {
-  useEffect(() => {
-    setFriends(JSON.parse(sessionStorage.getItem("current_user")).user_friends);
-  }, []);
-
   const { setFriends, friends } = useAuthContext();
   const { currentRecipientId, display, friend_messageDisplay } =
     useAppContext();
-
+  useEffect(() => {
+    setFriends(JSON.parse(sessionStorage.getItem("current_user")).user_friends);
+  }, []);
   const recipient = friends.filter(
     (friend) => friend.userid == currentRecipientId
   );
@@ -47,6 +46,9 @@ function FriendList() {
         <div>
           <SearchFriend />
         </div>
+      )}
+      {display == "Request" && (
+        <Request/>
       )}
 
       {/* <div>

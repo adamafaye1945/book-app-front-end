@@ -7,21 +7,23 @@ import AppButton from "./AppButton";
 import AppSpinner from "./Spinner";
 
 function Result({ name, image, id }) {
-  const { createFriendship, friends, setFriends } = useAuthContext();
-
-  function addFriend() {
-    setFriends([...friends, { name, image, userid: id }]);
-    sessionStorage.setItem(
-      "current_user",
-      JSON.stringify({
-        ...JSON.parse(sessionStorage.getItem("current_user")),
-        user_friends: [
-          ...JSON.parse(sessionStorage.getItem("current_user")).user_friends,
-          { name, id },
-        ],
-      })
-    );
-    createFriendship(id);
+  const { sendRequest, friends, setFriends, request } = useAuthContext();
+  
+  async function addFriend() {
+    // setFriends([...friends, { name, image, userid: id }]);
+    // sessionStorage.setItem(
+    //   "current_user",
+    //   JSON.stringify({
+    //     ...JSON.parse(sessionStorage.getItem("current_user")),
+    //     user_friends: [
+    //       ...JSON.parse(sessionStorage.getItem("current_user")).user_friends,
+    //       { name, id },
+    //     ],
+    //   })
+    // );
+    // createFriendship(id);
+    await sendRequest(id);
+    
   }
 
   return (
