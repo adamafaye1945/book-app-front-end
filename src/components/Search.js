@@ -6,15 +6,22 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearchengin } from "@fortawesome/free-brands-svg-icons";
 import { useAuthContext } from "../context/authentification";
 import Guide from "./Guide";
+import { useState } from "react";
 
 function Search() {
-  const { setBooks, setSearch, search } = useAppContext();
   const { user } = useAuthContext();
-  const searchMessage = "10 books are generated below, type author or book or both !"
+  const searchMessage =
+    "10 books are generated below, type author or book or both !";
+  const { search, setSearch, setBooks } = useAppContext();
+
   function clearSearch() {
     setSearch("");
     setBooks(null);
   }
+  //debouncing the search
+
+  // after debouncing
+
   return (
     <div>
       <div className={styles.guide}>

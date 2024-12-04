@@ -86,6 +86,13 @@
         justify-content: flex-start;
     }
 }
+.friendlist {
+  display: flex;
+  flex-wrap: wrap; /* Allows items to wrap to the next row */
+  gap: 1px; /* Adds space between the items */
+  justify-content: flex-start; /* Align items to the start of each row */
+  padding: 10px;
+}
 
 /* Media query to prevent buttons from stacking */
 @media (min-width: 400px) {

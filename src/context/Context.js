@@ -19,8 +19,9 @@ const Context = createContext();
 function ContextProvider({ children }) {
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
-  const GOOGLEAPIURL = "https://www.googleapis.com/books/v1/volumes";
   const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+
   const [books, setBooks] = useState();
   const { user, setUser } = useAuthContext();
   const [reflection, setReflection] = useState("");
@@ -105,48 +106,57 @@ function ContextProvider({ children }) {
     fetchChatIdAndSubscribe();
   }, [user, currentRecipientId]);
 
-  useEffect(
-    function () {
-      setLoading(true);
-      const debounce = setTimeout(async () => {
-        try {
-          if (!search) return;
+  // useEffect(
+  //   function () {
+  //     setLoading(true);
+  //     const debounce = setTimeout(async () => {
+  //       try {
+  //         if (!search) return;
 
-          const res = await fetch(`${GOOGLEAPIURL}?q=${search}`);
-          const data = await res.json();
-          const bookItem = data.items;
-          const newObj = [];
-          for (const item of bookItem) {
-            const { volumeInfo: book_data, id } = item;
-            const { title, authors } = book_data;
-            newObj.push({
-              id,
-              title,
-              authors: authors,
-              imageUrl: `http://books.google.com/books/content?id=${id}&printsec=frontcover&img=1&zoom=5&edge=curl&imgtk=AFLRE72fIinM01rF2BJv0lN0cjfq1TvTUyMDzfH-orkIrBXbaAudWJDDFFs44jBNDirmFacHwD5c9vyaDpknntczNHKvTieDh0B9SFuLUloq3y3BAnDbFZyzd4pfu-QeYcc4H7BXLrpT&source=gbs_api`,
-            });
-          }
-          setBooks(newObj);
-        } catch {
-          console.log("error fetching ");
-        } finally {
-          setLoading(false);
-        }
-      }, 600);
+  //         const res = await fetch(`${GOOGLEAPIURL}?q=${search}`);
+  //         const data = await res.json();
+  //         console.log(data);
+  //         const bookItem = data.items;
+  //         const newObj = [];
+  //         for (const item of bookItem) {
+  //           const { volumeInfo: book_data, id } = item;
+  //           const { title, authors } = book_data;
+  //           newObj.push({
+  //             id,
+  //             title,
+  //             authors: authors,
+  //             imageUrl: `http://books.google.com/books/content?id=${id}&printsec=frontcover&img=1&zoom=5&edge=curl&imgtk=AFLRE72fIinM01rF2BJv0lN0cjfq1TvTUyMDzfH-orkIrBXbaAudWJDDFFs44jBNDirmFacHwD5c9vyaDpknntczNHKvTieDh0B9SFuLUloq3y3BAnDbFZyzd4pfu-QeYcc4H7BXLrpT&source=gbs_api`,
+  //           });
+  //         }
+  //         setBooks(newObj);
+  //       } catch {
+  //         console.log("error fetching ");
+  //       } finally {
+  //         setLoading(false);
+  //       }
+  //     }, 600);
 
-      return () => clearTimeout(debounce);
-    },
-    [search]
-  );
+  //     return () => clearTimeout(debounce);
+  //   },
+  //   [search]
+  // );
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 600);
+
+    return () => clearTimeout(handler);
+  }, [search]);
   return (
     <Context.Provider
       value={{
         navigator,
         search,
         setSearch,
+        debouncedSearch,
+
         books,
         setBooks,
-        GOOGLEAPIURL,
         setLoading,
         setHover,
         hover,

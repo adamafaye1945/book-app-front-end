@@ -1,0 +1,20 @@
+type Books {
+  volumeInfo: [BookInfo]!
+}
+type ImageUrl {
+  thumbnail: String!
+  smallThumbnail: String!
+}
+
+type BookInfo {
+  title: String!
+  authors: [String]!
+  description: String!
+  imageLinks: ImageUrl!
+  publisher: String
+}
+
+type Query {
+  getVolumeInfo(bookName: String): Books!
+}
+
