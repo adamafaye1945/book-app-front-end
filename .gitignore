@@ -21,5 +21,4 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-/Users/faye/Desktop/book-app-frontend/src/.env
-/Users/faye/Desktop/book-app-frontend/backend/.env
+.env
