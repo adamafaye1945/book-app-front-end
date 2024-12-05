@@ -11,7 +11,7 @@ function BookCard({ book, rate, stop }) {
       <Card className={styles.card}>
         <Card.Img
           variant="top"
-          src={book.imageUrl}
+          src={book.imageLinks.thumbnail}
           className={styles.cardImage}
         />
         <Card.Body>
@@ -24,7 +24,7 @@ function BookCard({ book, rate, stop }) {
               <AppButton action={rate} type="details">
                 {book.reviewed ? "View Rating" : "Rate"}
               </AppButton>
-              <AppButton action={stop} type="stop">
+              <AppButton action={stop} type="">
                 Untrack
               </AppButton>
             </div>
